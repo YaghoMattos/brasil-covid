@@ -13,6 +13,7 @@ private:
     CitiesCoordinates *info;
     float x;
     float y;
+    
     NoQuadTree *nordeste;
     NoQuadTree *noroeste;
     NoQuadTree *suldeste;
@@ -36,8 +37,8 @@ public:
     void setSuldoeste(NoQuadTree *var);
     void setNoroeste(NoQuadTree *var);
 
-    float getX() { return this->x; };
-    float getY() { return this->y; };
+    float getX();
+    float getY();
 };
 
 #endif // NOQUADTREE_H_INCLUDED

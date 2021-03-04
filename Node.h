@@ -1,3 +1,6 @@
+#ifndef NODE_H_INCLUDED
+#define NODE_H_INCLUDED
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -28,4 +31,4 @@ public:
     void atualizaFB();//atualiza o valor de FB de acordo com os filhos
 };
 
-
+#endif // NODE_H_INCLUDED

@@ -28,8 +28,7 @@ private:
 
 public:
     LeitorCovid(string caminhoArquivo);
-
-    ~LeitorCovid(){};
+    ~LeitorCovid();
 };
 
 #endif // LEITURA_LEITORCOVID_H

@@ -12,7 +12,7 @@ class QuadTree
 private:
     NoQuadTree *raiz;
 
-    int compara(CitiesCoordinates *a, CitiesCoordinates *b);
+    int compara(NoQuadTree* p, CitiesCoordinates *b);
 
 public:
     QuadTree();
@@ -20,6 +20,7 @@ public:
     ~QuadTree();
 
     void inserir(CitiesCoordinates *info);
+    bool search(NoQuadTree* p);
 };
 
 #endif // QUADTREE_H_INCLUDED

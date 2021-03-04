@@ -1,10 +1,5 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <list>
 #include "Node.h"
 
-using namespace std;
 /**************************************************************************************************
  * Definindo os metodos dos Nós da arvore
 **************************************************************************************************/

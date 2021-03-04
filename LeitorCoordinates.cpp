@@ -24,7 +24,6 @@ void LeitorCoordinates::arquivoEntrada()
 
 void LeitorCoordinates::leitura()
 {
-    coordinates = new QuadTree();
     vector<CitiesCoordinates *> data;
     bool headerProcessado;
     string line;
@@ -83,8 +82,10 @@ void LeitorCoordinates::leitura()
     }
 
     cout << "Inserindo na QuadTree" << endl;
+    coordinates = new QuadTree();
     for (int i = 0; i < n; i++)
     {
+        cout << "Data " << i << " : " << data[i] << endl;
         coordinates->inserir(data[i]);
     }
 }

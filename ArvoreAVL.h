@@ -1,3 +1,6 @@
+#ifndef ARVOREAVL_H_INCLUDED
+#define ARVOREAVL_H_INCLUDED
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -22,4 +25,5 @@ public:
     void checkbalance (int valor, Node* raiz); //confere o balanceamento da arvore
 };
 
+#endif // ARVOREAVL_H_INCLUDED
 

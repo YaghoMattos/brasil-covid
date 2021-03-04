@@ -6,54 +6,70 @@ QuadTree::~QuadTree() {}
 
 void QuadTree::inserir(CitiesCoordinates *info)
 {
-    //cout << "Inserindo Novo No: " << info->codigo_cidade << endl;
-
     if (this->raiz == nullptr)
     {
+        //cout << "Raiz\n";
         this->raiz = new NoQuadTree(info);
         return;
     }
     else
     {
-        NoQuadTree *p = this->raiz;
+        NoQuadTree *novoNo = new NoQuadTree(info);
 
-        while (p != nullptr)
+        if (!this->search(novoNo))
         {
-            int comp = this->compara(p->getInfo(), info);
-            //cout << "Comp result: " << comp << endl;
-            if (comp == 0)
-            {
-                p = p->getSuldeste();
-            }
-            else if (comp == 1)
-            {
-                p = p->getNordeste();
-            }
-            else if (comp == 2)
-            {
-                p = p->getSuldoeste();
-            }
-            else if (comp == 3)
-            {
-                p = p->getNoroeste();
-            }
-            else if (comp == -1)
-            {
-                cout << "Ja existe na arvore" << endl;
-                return;
-            }
+            cout << "O no ja existe na arvore" << endl;
+            return;
         }
 
-        //Confere se p é realmente nulo e adiciona o novo nó na árvore
-        if (p == nullptr)
+        NoQuadTree *p = this->raiz;
+
+        while (true)
         {
-            NoQuadTree *novoNo = new NoQuadTree(info);
-            p = novoNo;
+            if (p->getX() < novoNo->getX())
+            {
+                if (p->getY() < novoNo->getX())
+                {
+                    if (p->getSuldeste() == nullptr){
+                        //cout << "Suldeste\n";
+                        p->setSuldeste(novoNo);
+                        break;
+                    }else
+                        p = p->getSuldeste();
+                }
+                else
+                {
+                    if (p->getNordeste() == nullptr){
+                        //cout << "Nordeste\n";
+                        p->setNordeste(novoNo);
+                        break;
+                    }else
+                        p = p->getNordeste();
+                }
+            }
+            else if (p->getY() < novoNo->getY())
+            {
+                if (p->getSuldoeste() == nullptr){
+                    //cout << "Suldeste\n";
+                    p->setSuldeste(novoNo);
+                    break;
+                }else
+                    p = p->getSuldoeste();
+            }
+            else
+            {
+                if (p->getNoroeste() == nullptr){
+                    //cout << "Noroeste\n";
+                    p->setNoroeste(novoNo);
+                    break;
+                }else
+                    p = p->getNoroeste();
+            }
         }
     }
 }
 
-int QuadTree::compara(CitiesCoordinates *a, CitiesCoordinates *b)
+int QuadTree::compara(NoQuadTree *p, CitiesCoordinates *b)
 {
     /**
      * -1 - São Iguais
@@ -63,13 +79,13 @@ int QuadTree::compara(CitiesCoordinates *a, CitiesCoordinates *b)
      * 3 - Noroeste
      */
 
-    if (a->latitude == b->latitude && a->longitude == b->longitude)
+    if (p->getX() == b->latitude && p->getY() == b->longitude)
     {
         return -1;
     }
-    else if (a->latitude < b->latitude)
+    else if (p->getX() < b->latitude)
     {
-        if (a->longitude < b->longitude)
+        if (p->getY() < b->longitude)
         {
             return 0; //Suldeste
         }
@@ -78,7 +94,7 @@ int QuadTree::compara(CitiesCoordinates *a, CitiesCoordinates *b)
             return 1; //Nordeste
         }
     }
-    else if (a->longitude < b->longitude)
+    else if (p->getY() < b->longitude)
     {
         return 2; //Suldoeste
     }
@@ -86,4 +102,31 @@ int QuadTree::compara(CitiesCoordinates *a, CitiesCoordinates *b)
     {
         return 3; //Noroeste
     }
+}
+
+bool QuadTree::search(NoQuadTree *p)
+{
+    if (this->raiz == nullptr)
+        return false;
+
+    NoQuadTree *no = this->raiz;
+    if (no->getX() < p->getX())
+    {
+        if (no->getY() < p->getX())
+        {
+            no = no->getSuldeste();
+        }
+        else
+        {
+            no = no->getNordeste();
+        }
+    }
+    else if (no->getY() < p->getY())
+    {
+        no = no->getSuldoeste();
+    }
+    else
+        no = no->getNoroeste();
+
+    return true;
 }

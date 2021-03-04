@@ -1,11 +1,5 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <list>
 #include "ArvoreAVL.h"
-#include "Node.h"
 
-using namespace std;
 
 ArvoreAVL::ArvoreAVL()//construtor
 {
