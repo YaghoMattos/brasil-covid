@@ -2,9 +2,9 @@
 #include <string>
 
 /*Bibliotecas criadas*/
-#include "arvores/QuadTree.h"
-#include "leitura/LeitorCoordinates.h"
-#include "leitura/LeitorCovid.h"
+#include "QuadTree.h"
+#include "LeitorCoordinates.h"
+#include "LeitorCovid.h"
 
 using namespace std;
 string caminho_diretorio;
@@ -49,12 +49,11 @@ menu:
          << "[02] Carregamento do arquivo pre-processado de casos; " << endl
          << "[03] Estrutura de Dados Balanceadas; " << endl
          << "[04] Modulo de Testes; " << endl
-         << "[05] Gerar arquivo brazil_covid19_cities.csv; " << endl
          << " [0] Sair;" << endl;
     cout << "Opcao: ";
     cin >> opcao;
 
-    if (opcao != 1 && opcao != 2 && opcao != 3 && opcao != 4 && opcao != 5 && opcao != 0)
+    if (opcao != 1 && opcao != 2 && opcao != 3 && opcao != 4 && opcao != 0)
     {
         goto menu;
     }
@@ -96,16 +95,12 @@ void selecionado(int chave)
         delete leitorCoordinate;
         break;
     case 2:
-        leitorCovid = new LeitorCovid(caminho_diretorio,true);
+        leitorCovid = new LeitorCovid(caminho_diretorio);
         delete leitorCovid;
         break;
     case 3:
         break;
     case 4:
-        break;
-    case 5:
-        leitorCovid = new LeitorCovid(caminho_diretorio,false);
-        delete leitorCovid;
         break;
     default:
         break;
