@@ -6,6 +6,7 @@ QuadTree::~QuadTree() {}
 
 void QuadTree::inserir(CitiesCoordinates *info)
 {
+    cout << "Inserindo No: " << info->codigo_cidade << endl;
     if (this->raiz == nullptr)
     {
         //cout << "Raiz\n";
@@ -23,47 +24,67 @@ void QuadTree::inserir(CitiesCoordinates *info)
         }
 
         NoQuadTree *p = this->raiz;
-
-        while (true)
+        bool flag = true;
+        while (flag)
         {
             if (p->getX() < novoNo->getX())
             {
                 if (p->getY() < novoNo->getX())
                 {
-                    if (p->getSuldeste() == nullptr){
+                    if (p->getSuldeste() == nullptr)
+                    {
                         //cout << "Suldeste\n";
                         p->setSuldeste(novoNo);
-                        break;
-                    }else
+                        flag = false;
+                    }
+                    else
+                    {
+                        //cout << "Proximo Suldeste\n";
                         p = p->getSuldeste();
+                    }
                 }
                 else
                 {
-                    if (p->getNordeste() == nullptr){
+                    if (p->getNordeste() == nullptr)
+                    {
                         //cout << "Nordeste\n";
                         p->setNordeste(novoNo);
-                        break;
-                    }else
+                        flag = false;
+                    }
+                    else
+                    {
+                        //cout << "Proximo Nordeste\n";
                         p = p->getNordeste();
+                    }
                 }
             }
             else if (p->getY() < novoNo->getY())
             {
-                if (p->getSuldoeste() == nullptr){
-                    //cout << "Suldeste\n";
-                    p->setSuldeste(novoNo);
-                    break;
-                }else
+                if (p->getSuldoeste() == nullptr)
+                {
+                    //cout << "Suldoeste\n";
+                    p->setSuldoeste(novoNo);
+                    flag = false;
+                }
+                else
+                {
+                    //cout << "Proximo Suldoeste\n";
                     p = p->getSuldoeste();
+                }
             }
             else
             {
-                if (p->getNoroeste() == nullptr){
+                if (p->getNoroeste() == nullptr)
+                {
                     //cout << "Noroeste\n";
                     p->setNoroeste(novoNo);
-                    break;
-                }else
+                    flag = false;
+                }
+                else
+                {
+                    //cout << "Proximo Noroeste\n";
                     p = p->getNoroeste();
+                }
             }
         }
     }
