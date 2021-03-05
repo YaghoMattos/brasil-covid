@@ -23,6 +23,10 @@ public:
     bool estahNaArvore(int valor, Node* noRaiz); // caminha recursivamente para verificação se o nó está na arvore ou nao
     void insertNode(int id); // insere novo no na arvore
     void checkbalance (int valor, Node* raiz); //confere o balanceamento da arvore
+    void rotacaoSimplesEsq(Node* noDesbalanceado); //efetua a rotacao simples a esquerda
+    void rotacaoSimplesDir(Node* noDesbalanceado); //efetua a rotacao simples a direita
+    void rotacaoDuplaEsq(Node* noDesbalanceado); //efetua a rotacao dupla a esquerda
+    void rotacaoDuplaDir (Node* noDesbalanceado); // efetua a rotacao dupla a direita
 };
 
 #endif // ARVOREAVL_H_INCLUDED

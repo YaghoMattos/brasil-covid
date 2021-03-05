@@ -82,7 +82,23 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
             auxiliar->atualizaFB();// depois da recursao, ele volta atualizando o fator balance
             if(!(-2<(auxiliar->getFB())<2))//se esse fator nao estiver na faixa entre -1 e 1
             {
-                //efetua rotaçao y
+                if((auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == 1 || auxiliar->getFilhoDir()->getFB() == 0 ) ) //se o fb do no desbalanceado é 2 e o filho a dir é 1 
+                {
+                    rotacaoSimplesEsq(auxiliar);//executa rotação simples a esquerda
+                }
+                else if((auxiliar->getFB() == (-2)) && (auxiliar->getFilhoEsq()->getFB() == (-1) || auxiliar->getFilhoDir()->getFB() == 0 ))//se o fb do no desbalanceado é -2 e do filho a esquerda é -1
+                {
+                    rotacaoSimplesDir(auxiliar);//executa rotaçao simples a direita
+                }
+                else if( (auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == (-1) ) )
+                {
+                    rotacaoDuplaEsq(auxiliar);//executa rotaçao dupla a esquerda
+                }
+                else if( (auxiliar->getFB() == (-2) ) && (auxiliar->getFilhoDir()->getFB() == 1 ) )
+                {
+                    rotacaoDuplaDir(auxiliar);//executa rotaçao dupla a direita
+                }
+
             }
         }
         else if(valor == auxiliar->getValor())//se o valor for igual
@@ -116,3 +132,41 @@ void ArvoreAVL::insertNode(int valor)//insere um novo nó na arvore
     checkbalance(valor,this->noRaiz);// confere balanceamento e balanceia a arvore
     cout << "no inserido com sucesso e arvore jah balanceada" << endl;//printa o sucesso
 }
+
+void rotacaoSimplesEsq(Node* noDesbalanceado)
+{
+    Node* auxiliar = noDesbalanceado->getFilhoDir();// (auxiliar é o no "Q") ele é o filho a direita do no desbalanceado
+    noDesbalanceado->setFilhoDir(auxiliar->getFilhoEsq()); // o no desbalanceado recebe o filho a esquerda do Q como seu filho a direita
+    auxiliar->setFilhoEsq(noDesbalanceado);// o no Q passa a apontar para o no desbalanceado como filho a esquerda
+    noDesbalanceado->atualizaFB();//atualiza o fb do no desbalanceado primeiro (já que é filho)
+    auxiliar->atualizaFB();//atualiza Fb do no "Q" ja que é raiz
+}
+
+void rotacaoSimplesDir(Node* noDesbalanceado)
+{
+    Node* auxiliar = noDesbalanceado->getFilhoEsq(); // (auxiliar é o no "Q") ele é o filho a esquerda do no desbalanceado
+    noDesbalanceado->setFilhoEsq(auxiliar->getFilhoDir()); // no desbalanceado passa a apontar para o filho a direita de Q como filho a esquerda
+    auxiliar->setFilhoDir(noDesbalanceado);//Q passa a apontar para o no desbalanceado como seu filho a direita
+    noDesbalanceado->atualizaFB();//atualiza o fb do no desbalanceado primeiro (já que é filho)
+    auxiliar->atualizaFB();//atualiza Fb do no "Q" ja que é raiz
+}
+
+void rotacaoDuplaEsq(Node* noDesbalanceado) // pode ser vista como uma funçao unica
+{
+    Node* q = noDesbalanceado->getFilhoDir(); // no auxiliar q recebe o filho a direita do no desbalanceado
+    Node* r = q->getFilhoEsq(); // no auxiliar r recebe o filho a esquerda do no auxiliar q
+    noDesbalanceado->setFilhoDir(r->getFilhoEsq()); // filho a direita do no desbalanceado agora aponta para o filho a esquerda de r
+    q->setFilhoEsq(r->getFilhoDir()); // filho a direita de r agora é filho a esquerda de q
+    r->setFilhoEsq(noDesbalanceado); //agora com R sem filhos aponta o filho a esquerda para o no desbalanceado 
+    r->setFilhoDir(q); // e o da direita para o q
+    noDesbalanceado->atualizaFB(); // atualiza fb do no desbalanceado
+    q->atualizaFB();// atualiza fb do no q
+    r->atualizaFB(); // atualiza fb do no r
+}
+void rotacaoDuplaDir(Node* noDesbalanceado) // ou uma junção de duas rotaçoes simples
+{  
+    Node* q = noDesbalanceado->getFilhoEsq(); // no auxiliar q recebe o filho a direita do no desbalanceado
+    rotacaoSimplesEsq(q);// rotaciona a esquerda
+    rotacaoSimplesDir(noDesbalanceado); //depois a direita
+}
+
