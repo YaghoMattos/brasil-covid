@@ -1,5 +1,5 @@
-#ifndef LEITURA_LEITORCOORDINATES_H
-#define LEITURA_LEITORCOORDINATES_H
+#ifndef LEITORCOORDINATES_H
+#define LEITORCOORDINATES_H
 
 #include <iostream>
 #include <string>
@@ -33,4 +33,4 @@ public:
     ~LeitorCoordinates();
 };
 
-#endif // LEITURA_LEITORCOORDINATES_H
+#endif // LEITORCOORDINATES_H

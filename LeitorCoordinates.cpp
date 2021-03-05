@@ -83,9 +83,9 @@ void LeitorCoordinates::leitura()
 
     cout << "Inserindo na QuadTree" << endl;
     coordinates = new QuadTree();
-    for (int i = 0; i < n; i++)
+    for (auto it = data.begin(); it != data.end(); it++)
     {
-        cout << "Data " << i << " : " << data[i] << endl;
-        coordinates->inserir(data[i]);
+        //cout << "Data " << " : " << it.codigo_cidade << endl;
+        coordinates->inserir(*it);
     }
 }

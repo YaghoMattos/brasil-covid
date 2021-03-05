@@ -1,5 +1,5 @@
-#ifndef LEITURA_BASE_H_INCLUDED
-#define LEITURA_BASE_H_INCLUDED
+#ifndef BASE_H_INCLUDED
+#define BASE_H_INCLUDED
 
 #include <iostream>
 #include <string>
@@ -26,4 +26,4 @@ public:
     bool strToBool(string s);
 };
 
-#endif // LEITURA_BASE_H_INCLUDED
+#endif // BASE_H_INCLUDED

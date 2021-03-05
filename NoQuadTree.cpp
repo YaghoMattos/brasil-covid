@@ -8,7 +8,7 @@ NoQuadTree::NoQuadTree()
     this->nordeste = nullptr;
     this->suldeste = nullptr;
     this->suldoeste = nullptr;
-    this->suldeste = nullptr;
+    this->noroeste = nullptr;
 }
 
 NoQuadTree::NoQuadTree(CitiesCoordinates *_info)
@@ -19,7 +19,7 @@ NoQuadTree::NoQuadTree(CitiesCoordinates *_info)
     this->nordeste = nullptr;
     this->suldeste = nullptr;
     this->suldoeste = nullptr;
-    this->suldeste = nullptr;
+    this->noroeste = nullptr;
 }
 
 NoQuadTree *NoQuadTree::getNordeste() { return this->nordeste; }
