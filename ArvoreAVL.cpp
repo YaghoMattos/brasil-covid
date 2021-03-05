@@ -73,7 +73,22 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
             auxiliar->atualizaFB();// depois da recursao, ele volta atualizando o fator balance
             if(!(-2<(auxiliar->getFB())<2))//se esse fator nao estiver na faixa entre -1 e 1
             {
-                //efetua rotaçao x
+                if((auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == 1 || auxiliar->getFilhoDir()->getFB() == 0 ) ) //se o fb do no desbalanceado é 2 e o filho a dir é 1 
+                {
+                    rotacaoSimplesEsq(auxiliar);//executa rotação simples a esquerda
+                }
+                else if((auxiliar->getFB() == (-2)) && (auxiliar->getFilhoEsq()->getFB() == (-1) || auxiliar->getFilhoDir()->getFB() == 0 ))//se o fb do no desbalanceado é -2 e do filho a esquerda é -1
+                {
+                    rotacaoSimplesDir(auxiliar);//executa rotaçao simples a direita
+                }
+                else if( (auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == (-1) ) )
+                {
+                    rotacaoDuplaEsq(auxiliar);//executa rotaçao dupla a esquerda
+                }
+                else if( (auxiliar->getFB() == (-2) ) && (auxiliar->getFilhoDir()->getFB() == 1 ) )
+                {
+                    rotacaoDuplaDir(auxiliar);//executa rotaçao dupla a direita
+                }
             }
         }
         else if(valor > auxiliar->getValor())//se o valor for maior do que o atual no ponteiro
