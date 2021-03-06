@@ -69,6 +69,7 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
         if(valor < auxiliar->getValor()) //se o valor que foi passado é maior do que o valor do no
         {
             checkbalance(valor, auxiliar->getFilhoEsq());//o ponteiro anda para a esquerda
+            auxiliar->atualizaAltura(); //primeiro atualiza a altura para nao dar erro no FB
             auxiliar->atualizaFB();// depois da recursao, ele volta atualizando o fator balance
             if(!(-2<(auxiliar->getFB())<2))//se esse fator nao estiver na faixa entre -1 e 1
             {
@@ -89,10 +90,12 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
                     rotacaoDuplaDir(auxiliar);//executa rotaçao dupla a direita
                 }
             }
+    
         }
         else if(valor > auxiliar->getValor())//se o valor for maior do que o atual no ponteiro
         {
             checkbalance(valor, auxiliar->getFilhoDir());//o ponteiro anda para a direita
+            auxiliar->atualizaAltura(); // atualiza altura antes de fb para nao ocorrer erros
             auxiliar->atualizaFB();// depois da recursao, ele volta atualizando o fator balance
             if(!(-2<(auxiliar->getFB())<2))//se esse fator nao estiver na faixa entre -1 e 1
             {
@@ -114,9 +117,11 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
                 }
 
             }
+            
         }
         else if(valor == auxiliar->getValor())//se o valor for igual
         {
+            auxiliar->atualizaAltura(); // atualiza altura antes de tudo para nao dar erro no fb
             auxiliar->atualizaFB();//atualiza o FB do atual e volta a recursividade anterior
         }
     }

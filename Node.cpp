@@ -15,7 +15,7 @@ Node::Node(int valor)
 
 Node::~Node()
 {
-    
+
 }
 // declaraçoes dos Getters
 int Node::getAltura()//pega a altura daquele nó
@@ -58,6 +58,10 @@ void Node::atualizaFB()//atualiza o valor de balanceamento
     {
         this->fb = ((-1) - this->getFilhoEsq()->H);//e coloca o novo valor pra fb
     }
+    else if(this->getFilhoDir() == nullptr && this->getFilhoEsq() == nullptr) // se os dois filhos forem null 
+    {
+        this->fb = 0; // fb atualiza para 0
+    }
     else if(this->getFilhoDir() != nullptr && this->getFilhoEsq() == nullptr)//se o filho a esquerda for null
     {
         this->fb = (this->getFilhoDir()->H - (-1));//coloca o valor -1 no lugar da altura do filho da esquerda
@@ -65,5 +69,32 @@ void Node::atualizaFB()//atualiza o valor de balanceamento
     else//se ambos forem diferentes de null
     {
         this->fb = ((this->getFilhoDir()->H) - (this->getFilhoEsq()->H) ); //seta o novo valor de balanceamento baseado nas alturas dos filhos
+    }
+}
+
+void Node::atualizaAltura()//atualiza o valor de balanceamento
+{
+    if(this->getFilhoDir() == nullptr && this->getFilhoEsq() != nullptr)//se o filho a direita for null, e o filho a esquerda nao for
+    {
+        this->setAltura(this->getFilhoEsq()->getAltura()+1);//pega o valor da altura do filho a esquerda e soma 1
+    }
+    else if(this->getFilhoDir() == nullptr && this->getFilhoEsq() == nullptr) // se os dois filhos forem null 
+    {
+        this->setAltura(0); //altura atualiza para 0
+    }
+    else if(this->getFilhoDir() != nullptr && this->getFilhoEsq() == nullptr)//se o filho a esquerda for null e o da direita nao for
+    {
+        this->setAltura(this->getFilhoDir()->getAltura()+1);//pega o valor da altura do filho a direita e soma 1
+    }
+    else//se ambos forem diferentes de null
+    {
+        if(this->getFilhoDir()->getAltura() < this->getFilhoEsq()->getAltura()) // se a altura do filho a direita for menor que o da esquerda
+        {
+            this->setAltura(this->getFilhoEsq()->getAltura()+1);// pega o valor do filho a esquerda e soma 1
+        }
+        else if(this->getFilhoDir()->getAltura() > this->getFilhoEsq()->getAltura())//se a altura do filho a direita for maior que o da esquerda
+        {
+            this->setAltura(this->getFilhoDir()->getAltura()+1);// atualiza a altura somando 1 a altura do filho a direita
+        }
     }
 }

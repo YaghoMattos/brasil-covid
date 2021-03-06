@@ -29,6 +29,7 @@ public:
     void setFilhoDir(Node* filhodir);//aponta para um novo nó filho a direita
     void setFilhoEsq(Node* filhoesq);//aponta para um novo nó filho a esquerda
     void atualizaFB();//atualiza o valor de FB de acordo com os filhos
+    void atualizaAltura(); // atualiza altura apos inserção de no
 };
 
 #endif // NODE_H_INCLUDED
