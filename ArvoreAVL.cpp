@@ -18,9 +18,8 @@ void ArvoreAVL::setRaiz(Node* novaRaiz)//aloca uma nova raiz passando a nova rai
 {
     this->noRaiz = novaRaiz;//a raiz recebe a nova raiz
 }
-Node* ArvoreAVL::buscadorDeNoPai(int valor)//busca um nó na arvore a partir do valor, retornando o nó se existir, ou o no pai caso nao exista
+Node* ArvoreAVL::buscadorDeNoPai(int valor, Node* auxiliar)//busca um nó na arvore a partir do valor, retornando o pai desse nó se existir, ou o no pai caso nao exista
 {
-    Node* auxiliar = this->noRaiz;//começa com um no que percorre a arvore a partir do no raiz, se nao encontrar retorna o valor do nó pai
     while (auxiliar != nullptr)//enquanto esse auxiliar for diferente de null percorre a arvore
     {
         if(valor > auxiliar->getValor())//se o valor passado for maior que do auxiliar, vai para a direita
@@ -30,7 +29,7 @@ Node* ArvoreAVL::buscadorDeNoPai(int valor)//busca um nó na arvore a partir do 
                 return auxiliar;//e retorna o seu pai
             }
             else// se o filho nao for null
-                auxiliar = auxiliar->getFilhoDir();//auxiliar pula para o filho a direita 
+                buscadorDeNoPai(valor,auxiliar->getFilhoDir());//auxiliar pula para o filho a direita 
         }
         else if(valor < auxiliar->getValor())//se o valor for menor que o do auxiliar vai para a esquerda
         {
@@ -39,9 +38,9 @@ Node* ArvoreAVL::buscadorDeNoPai(int valor)//busca um nó na arvore a partir do 
                 return auxiliar;//retorna o nó pai
             }
             else // caso nao seja null o filho a esquerda
-                auxiliar = auxiliar->getFilhoEsq();//auxiliar anda para a esquerda
+                buscadorDeNoPai(valor,auxiliar->getFilhoEsq());//auxiliar anda para a esquerda
         }
-        else if(auxiliar->getValor() == valor)//caso o valor seja igual ao passado
+        else if(auxiliar->getValor() == valor )//caso o valor seja igual ao passado
         {
             return auxiliar;//retorna o ponteiro para este nó
         }
@@ -138,7 +137,7 @@ void ArvoreAVL::insertNode(int valor)//insere um novo nó na arvore
     else//se a raiz nao for null
     {
         Node* noPai; //cria um ponteiro para o no pai
-        noPai = buscadorDeNoPai(valor);//aloca o no pai no ponteiro
+        noPai = buscadorDeNoPai(valor,noRaiz);//aloca o no pai no ponteiro
         if(valor < noPai->getValor())//se o valor for menor que o no pai
             noPai->setFilhoEsq(no); // ele vai ser o filho a esquerda
         else if(valor > noPai->getValor())//se o valor for maior que o no pai
@@ -148,7 +147,8 @@ void ArvoreAVL::insertNode(int valor)//insere um novo nó na arvore
     cout << "no inserido com sucesso e arvore jah balanceada" << endl;//printa o sucesso
 }
 
-void rotacaoSimplesEsq(Node* noDesbalanceado)
+
+void ArvoreAVL::rotacaoSimplesEsq(Node* noDesbalanceado)
 {
     Node* auxiliar = noDesbalanceado->getFilhoDir();// (auxiliar é o no "Q") ele é o filho a direita do no desbalanceado
     noDesbalanceado->setFilhoDir(auxiliar->getFilhoEsq()); // o no desbalanceado recebe o filho a esquerda do Q como seu filho a direita
@@ -157,7 +157,7 @@ void rotacaoSimplesEsq(Node* noDesbalanceado)
     auxiliar->atualizaFB();//atualiza Fb do no "Q" ja que é raiz
 }
 
-void rotacaoSimplesDir(Node* noDesbalanceado)
+void ArvoreAVL::rotacaoSimplesDir(Node* noDesbalanceado)
 {
     Node* auxiliar = noDesbalanceado->getFilhoEsq(); // (auxiliar é o no "Q") ele é o filho a esquerda do no desbalanceado
     noDesbalanceado->setFilhoEsq(auxiliar->getFilhoDir()); // no desbalanceado passa a apontar para o filho a direita de Q como filho a esquerda
@@ -166,7 +166,7 @@ void rotacaoSimplesDir(Node* noDesbalanceado)
     auxiliar->atualizaFB();//atualiza Fb do no "Q" ja que é raiz
 }
 
-void rotacaoDuplaEsq(Node* noDesbalanceado) // pode ser vista como uma funçao unica
+void ArvoreAVL::rotacaoDuplaEsq(Node* noDesbalanceado) // pode ser vista como uma funçao unica
 {
     Node* q = noDesbalanceado->getFilhoDir(); // no auxiliar q recebe o filho a direita do no desbalanceado
     Node* r = q->getFilhoEsq(); // no auxiliar r recebe o filho a esquerda do no auxiliar q
@@ -178,10 +178,22 @@ void rotacaoDuplaEsq(Node* noDesbalanceado) // pode ser vista como uma funçao u
     q->atualizaFB();// atualiza fb do no q
     r->atualizaFB(); // atualiza fb do no r
 }
-void rotacaoDuplaDir(Node* noDesbalanceado) // ou uma junção de duas rotaçoes simples
+void ArvoreAVL::rotacaoDuplaDir(Node* noDesbalanceado) // ou uma junção de duas rotaçoes simples
 {  
     Node* q = noDesbalanceado->getFilhoEsq(); // no auxiliar q recebe o filho a direita do no desbalanceado
     rotacaoSimplesEsq(q);// rotaciona a esquerda
     rotacaoSimplesDir(noDesbalanceado); //depois a direita
 }
 
+void ArvoreAVL::imprimeNo(int valor) // imprime o no buscado
+{
+    if(!estahNaArvore(valor,noRaiz))// se o no nao esta na arvore
+    {
+        cout << "o noh que você procurou nao estah nesta arvore" << endl; // imprime nao esta na arvore
+    }
+    else// se estiver
+    {
+       Node* q = buscadorDeNoPai(valor, noRaiz); // busca o no e o retorna
+       cout << "Noh:" << q->getValor() << "Altura: " << q->getAltura() << endl; // imprime o valor e a altura do no 
+    }
+}

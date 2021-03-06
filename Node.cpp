@@ -15,7 +15,7 @@ Node::Node(int valor)
 
 Node::~Node()
 {
-
+    
 }
 // declaraçoes dos Getters
 int Node::getAltura()//pega a altura daquele nó
@@ -51,6 +51,7 @@ void Node::setFilhoEsq(Node* filhoesq)//seta um novo filho a esquerda
 {
     this->filhoEsq = filhoesq;//seta um novo filho a esquerda
 }
+//funçoes auxiliares
 void Node::atualizaFB()//atualiza o valor de balanceamento
 {
     if(this->getFilhoDir() == nullptr && this->getFilhoEsq() != nullptr)//se o filho a direita for null, coloca o valor -1 no lugar da altura do filho da direita
