@@ -32,6 +32,7 @@ obj/
 *.txt
 *.wpd
 *.wps
+*.csv
 
 ### vscode ###
 .vscode/*
@@ -40,5 +41,8 @@ obj/
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+#### Pastas para ignorar ####
+Datasets/
 
 # End of https://www.toptal.com/developers/gitignore/api/vscode,codeblocks,text,executable
