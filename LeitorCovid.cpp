@@ -4,8 +4,8 @@ LeitorCovid::LeitorCovid(string caminhoArquivo)
 {
     this->caminho_arquivo = caminhoArquivo;
 
-        this->arquivoEntrada();
-        this->leitura();
+    this->arquivoEntrada();
+    this->leitura();
 }
 
 LeitorCovid::~LeitorCovid() {}
@@ -18,8 +18,8 @@ void LeitorCovid::arquivoEntrada()
 
 void LeitorCovid::leitura()
 {
-    //Hash = new Hash();
-    vector<CitiesCovid *> data;
+    hash = new HashEncLinear(500000);
+    vector<CitiesCovid*> data;
     bool headerProcessado;
     string line;
     fstream arquivo_entrada;
@@ -54,17 +54,20 @@ void LeitorCovid::leitura()
         }
         else
         {
+            vector<string> aux = explode(result[0],'-');
             //cout << "Processando Coordenadas de numero: " << pos << endl;
-            CitiesCovid *u = new CitiesCovid();
+            CitiesCovid* u = new CitiesCovid();
 
-            u->dia;
-            u->mes;
-            u->ano;
-            u->sigla_estado;
-            u->nome;
-            u->codigo;
-            u->casos;
-            u->mortes;
+            
+
+            u->dia = aux[2];
+            u->mes = aux[1];
+            u->ano = aux[0];
+            u->sigla_estado = result[1];
+            u->nome = result[2];
+            u->codigo = strToInt(result[3]);
+            u->casos = strToInt(result[4]);
+            u->mortes = strToInt(result[5]);
 
             data.push_back(u);
             pos++;
@@ -78,9 +81,11 @@ void LeitorCovid::leitura()
         arquivo_entrada.close();
     }
 
-    /*cout << "Inserindo no Hash" << endl;
-        for (int i = 0; i < n; i++)
-        {
-            Hash->inserir(data[i]);
-        }*/
+    cout << "Inserindo no Hash" << endl;
+    for (int i = 0; i < 500000; i++)
+    {
+        hash->inserir(data[i]);
+    }
+
+    hash->imprime();
 }
