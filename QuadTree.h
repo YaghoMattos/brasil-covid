@@ -2,12 +2,13 @@
 #define QUADTREE_H_INCLUDED
 
 #include <iostream>
+#include "BaseArvores.h"
 #include "NoQuadtree.h"
 #include "CitiesCoordinates.h"
 
 using namespace std;
 
-class QuadTree
+class QuadTree : public BaseArvores
 {
 private:
     NoQuadTree *raiz;
