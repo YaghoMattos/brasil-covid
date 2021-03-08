@@ -6,10 +6,11 @@
 #include <string>
 #include <list>
 #include "Node.h"
+#include "BaseArvores.h"
 
 using namespace std;
 
-class ArvoreAVL
+class ArvoreAVL : public BaseArvores
 {
 private:
     Node* noRaiz;//nó raiz da arvore, aponta para o primeiro nó da arvore
