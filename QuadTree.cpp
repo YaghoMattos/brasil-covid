@@ -6,7 +6,7 @@ QuadTree::~QuadTree() {}
 
 void QuadTree::inserir(CitiesCoordinates *info)
 {
-    cout << "Inserindo No: " << info->codigo_cidade << endl;
+    //cout << "Inserindo No: " << info->codigo_cidade << endl;
     if (this->raiz == nullptr)
     {
         //cout << "Raiz\n";

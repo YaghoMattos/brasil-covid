@@ -81,7 +81,7 @@ void LeitorCoordinates::leitura()
         arquivo_entrada.close();
     }
 
-    cout << "Inserindo na QuadTree" << endl;
+    //cout << "Inserindo na QuadTree" << endl;
     coordinates = new QuadTree();
     for (auto it = data.begin(); it != data.end(); it++)
     {

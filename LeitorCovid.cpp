@@ -12,7 +12,7 @@ LeitorCovid::~LeitorCovid() {}
 
 void LeitorCovid::arquivoEntrada()
 {
-    this->caminho_arquivo += getSeparadorDiretorio() + "brazil_cities_covid_cities_processado.csv";
+    this->caminho_arquivo += getSeparadorDiretorio() + "brazil_covid19_cities_processado.csv";
     cout << "Caminho corrigido: " << this->caminho_arquivo << endl;
 }
 
