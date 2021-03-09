@@ -185,3 +185,7 @@ int HashEncLinear::divisao(int id, string data)
 
     return num;
 }
+
+HashItem HashEncLinear::getHashMap(int pos){
+    return HashMap[pos];
+}

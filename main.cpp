@@ -224,12 +224,12 @@ void arvoreAVL(){
 
     for(int i = 0; i < n; i++)
     {
-        //arvore->insertNode();
+        cout << "Inserindo na arvore" << endl;
+        arvore->insertNode(i);
     }
 
     if (n <= 20)
     {
-        hash->imprime();
     }
     else
     {

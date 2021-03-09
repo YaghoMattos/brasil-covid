@@ -20,6 +20,7 @@ class HashEncLinear{
         int getTamanho();
         void imprime();
         void imprimeArquivo();
+        HashItem getHashMap(int pos);
     private:
         int tamanho;
         int primo;
