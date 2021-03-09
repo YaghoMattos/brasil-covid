@@ -23,6 +23,7 @@ void selecionadoTestes(int chave);
 void quadTree();
 void funcaoHash();
 void arvoreAVL();
+void arvoreB();
 
 int main(int argc, char *argv[])
 {
@@ -100,17 +101,17 @@ void selecionado(int chave)
     switch (chave)
     {
     case 1:
-        leitorCoordinate = new LeitorCoordinates(caminho_diretorio);
+        leitorCoordinate = new LeitorCoordinates(caminho_diretorio); //Lê todos os arquivos
         delete leitorCoordinate;
         break;
     case 2:
-        leitorCovid = new LeitorCovid(caminho_diretorio);
+        leitorCovid = new LeitorCovid(caminho_diretorio); //Lê todos os arquivos
         delete leitorCovid;
         break;
-    case 3:
+    case 3: //Trabalho Propriamente dito
         break;
     case 4:
-        moduloTestes();
+        moduloTestes(); //Modulo de Testes
         break;
     default:
         break;
@@ -170,24 +171,34 @@ void selecionadoTestes(int chave)
     case 3:
         arvoreAVL();
         break;
+    case 4:
+        arvoreB();
+        break;
     default:
         break;
     }
 }
 
+/**
+ * Modulo de Testes da Árvore QuadTree
+ * 
+ */
 void quadTree()
 {
 
-    int n = 0;
+    int n = 0; //Número de Registros a ser lido
+
     cout << "Selecione o numero de chaves a ser inserido na QuadTree: ";
     cin >> n;
-    LeitorCoordinates *leitorCoordinate = new LeitorCoordinates(caminho_diretorio, n);
-    QuadTree *quad = leitorCoordinate->getQuadTree();
-    if (n <= 20)
+
+    LeitorCoordinates *leitorCoordinate = new LeitorCoordinates(caminho_diretorio, n); //Cria um novo Leitor 
+    QuadTree *quad = leitorCoordinate->getQuadTree(); //Recebe a QuadTree gerada por esse leitor
+
+    if (n <= 20) //Caso o número de Chaves seja menor que 20, será impresso na tela
     {
         quad->imprimirTela();
     }
-    else
+    else //Se não, iremos imprimir em um arquivo
     {
         quad->imprimir();
     }
@@ -201,7 +212,14 @@ void funcaoHash()
     cout << "Selecione o numero de registros a ser inserido na Tabela Hash de Encadeamento Linear: ";
     cin >> n;
     LeitorCovid* leitorCovid = new LeitorCovid(caminho_diretorio, n);
-    HashEncLinear* hash = leitorCovid->getHash();
+    HashEncLinear* hash = new HashEncLinear(n);
+    vector<CitiesCovid*> data = leitorCovid->getData();
+
+    for (int i = 0; i < n; i++)
+    {
+        hash->inserir(data[i]);
+    }
+
     if (n <= 20)
     {
         hash->imprime();
@@ -210,6 +228,8 @@ void funcaoHash()
     {
         hash->imprimeArquivo();
     }
+
+    data.clear();
     delete leitorCovid;
     delete hash;
 }
@@ -219,13 +239,20 @@ void arvoreAVL(){
     cout << "Selecione o numero de chaves a ser inserido na arvore AVL: ";
     cin >> n;
     LeitorCovid* leitorCovid = new LeitorCovid(caminho_diretorio, n);
-    //HashEncLinear* hash = leitorCovid->getHash();
+    HashEncLinear* hash = new HashEncLinear(n);
+    vector<CitiesCovid*> data = leitorCovid->getData();
+
+    for (int i = 0; i < n; i++)
+    {
+        hash->inserir(data[i]);
+    }
+
     ArvoreAVL* arvore = new ArvoreAVL();
 
     for(int i = 0; i < n; i++)
     {
         cout << "Inserindo na arvore" << endl;
-        arvore->insertNode(i);
+        arvore->insertNode(hash->getHashMap(i).chave);
     }
 
     if (n <= 20)
@@ -233,8 +260,12 @@ void arvoreAVL(){
     }
     else
     {
-        //hash->imprimeArquivo();
+        
     }
     delete leitorCovid;
     //delete hash; 
+}
+
+void arvoreB(){
+
 }

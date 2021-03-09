@@ -34,7 +34,7 @@ void LeitorCovid::arquivoEntrada()
 void LeitorCovid::leitura()
 {
     this->timerStart();
-    vector<CitiesCovid* > data;
+   
     bool headerProcessado;
     string line;
     fstream arquivo_entrada;
@@ -122,7 +122,7 @@ void LeitorCovid::leitura()
          << "Comecando insecao na Tabela Hash" << endl
          << endl;
 
-    tempo = 0;
+    /*tempo = 0;
     this->timerStart();
     hash = new HashEncLinear(n);
     //cout << "Inserindo no Hash" << endl;
@@ -132,9 +132,14 @@ void LeitorCovid::leitura()
     }
     tempo = this->timerEnd();
     cout << "Insercao realizada em " << tempo << " segundos" << endl;
+    //hash->imprimeArquivo();*/
 }
 
-HashEncLinear *LeitorCovid::getHash()
+vector<CitiesCovid* > LeitorCovid::getData(){
+    return data;
+}
+
+HashEncLinear* LeitorCovid::getHash()
 {
     return this->hash;
 }

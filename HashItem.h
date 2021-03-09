@@ -10,7 +10,7 @@ using namespace std;
 class HashItem{
     public:
         string data;
-        long chave;
+        int chave;
 };
 
 #endif // HASHITEM_H

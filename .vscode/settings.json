@@ -7,7 +7,10 @@
         "string": "cpp",
         "string_view": "cpp",
         "iostream": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "unordered_map": "cpp",
+        "optional": "cpp",
+        "functional": "cpp"
     },
     "cSpell.language": ",pt,pt_BR"
 }

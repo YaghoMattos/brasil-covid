@@ -21,7 +21,7 @@ private:
     string caminho_arquivo;
     int n; //Numero de registros;
     HashEncLinear* hash;
-
+    vector<CitiesCovid* > data;
     void arquivoEntrada();
 
     void leitura();
@@ -31,7 +31,7 @@ public:
     LeitorCovid(string caminhoArquivo);
     LeitorCovid(string caminhoArquivo,int n);
     ~LeitorCovid();
-
+    vector<CitiesCovid* > getData();
     HashEncLinear* getHash();
 };
 
