@@ -17,6 +17,7 @@ class HashEncLinear{
         void inserir(CitiesCovid* item);
         bool buscar(CitiesCovid* item);
 
+        int getNumColisoes();
         int getTamanho();
         void imprime();
         void imprimeArquivo();
@@ -25,8 +26,10 @@ class HashEncLinear{
         int tamanho;
         int primo;
         HashItem* HashMap;
+        int num_colisoes;
 
         HashItem criaItem(CitiesCovid* item);
+        HashItem criaItemVazio();
         bool isPosicaoVazia(int pos);
 
         /*Funções auxiliares*/

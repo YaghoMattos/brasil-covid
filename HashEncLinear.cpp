@@ -5,10 +5,10 @@ HashEncLinear::HashEncLinear(int tam)
     this->tamanho = tam;
     this->primo = this->encontraPrimo(tam);
     this->HashMap = new HashItem[tam];
+    this->num_colisoes = 0;
     for (int i = 0; i < tam; i++)
     {
-        HashMap[i].data = "";
-        HashMap[i].chave = -1;
+        HashMap[i] = criaItemVazio();
     }
 }
 
@@ -17,7 +17,15 @@ HashEncLinear::~HashEncLinear()
     delete[] HashMap;
 }
 
-void HashEncLinear::inserir(CitiesCovid *item)
+HashItem HashEncLinear::criaItemVazio(){
+    HashItem h;
+    h.chave = -1;
+    h.data = "";
+
+    return h;
+}
+
+void HashEncLinear::inserir(CitiesCovid* item)
 {
     string data = "";
     data += item->dia;
@@ -32,6 +40,7 @@ void HashEncLinear::inserir(CitiesCovid *item)
     }
     else
     {
+        this->num_colisoes++;
         int j = 0;
         int hash_search = hash + 1;
         while (j < this->tamanho)
@@ -44,6 +53,8 @@ void HashEncLinear::inserir(CitiesCovid *item)
             {
                 HashMap[hash_search] = criaItem(item);
                 break;
+            } else {
+                this->num_colisoes++;
             }
             j++;
             hash_search++;
@@ -53,7 +64,7 @@ void HashEncLinear::inserir(CitiesCovid *item)
     //cout << "saiu do else, deveria terminar a insercao aqui" << endl;
 }
 
-bool HashEncLinear::buscar(CitiesCovid *item)
+bool HashEncLinear::buscar(CitiesCovid* item)
 {
     string data = "";
     data += item->dia + item->mes + item->ano;
@@ -84,12 +95,16 @@ bool HashEncLinear::buscar(CitiesCovid *item)
     return false;
 }
 
-HashItem HashEncLinear::criaItem(CitiesCovid *item)
+HashItem HashEncLinear::criaItem(CitiesCovid* item)
 {
     HashItem h;
     h.chave = item->codigo;
     h.data = item->dia + "-" + item->mes + "-" + item->ano;
     return h;
+}
+
+int HashEncLinear::getNumColisoes(){
+    return this->num_colisoes;
 }
 
 void HashEncLinear::imprime()

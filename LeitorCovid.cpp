@@ -34,7 +34,7 @@ void LeitorCovid::arquivoEntrada()
 void LeitorCovid::leitura()
 {
     this->timerStart();
-    vector<CitiesCovid *> data;
+    vector<CitiesCovid* > data;
     bool headerProcessado;
     string line;
     fstream arquivo_entrada;
@@ -81,7 +81,7 @@ void LeitorCovid::leitura()
 
             vector<string> aux = explode(result[0], '-');
             //cout << "Processando Coordenadas de numero: " << pos << endl;
-            CitiesCovid *u = new CitiesCovid();
+            CitiesCovid* u = new CitiesCovid();
 
             if (result.size() > 1)
             {
