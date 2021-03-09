@@ -47,6 +47,7 @@ void HashEncLinear::inserir(CitiesCovid *item)
                 break;
             }
             j++;
+            hash_search++;
         }
     }
 }

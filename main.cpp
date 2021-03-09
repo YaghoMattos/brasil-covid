@@ -22,6 +22,7 @@ void selecionadoTestes(int chave);
 /*Casos de Teste*/
 void quadTree();
 void funcaoHash();
+void arvoreAVL();
 
 int main(int argc, char *argv[])
 {
@@ -167,6 +168,7 @@ void selecionadoTestes(int chave)
         funcaoHash();
         break;
     case 3:
+        arvoreAVL();
         break;
     default:
         break;
@@ -210,4 +212,29 @@ void funcaoHash()
     }
     delete leitorCovid;
     delete hash;
+}
+
+void arvoreAVL(){
+    int n = 0;
+    cout << "Selecione o numero de chaves a ser inserido na arvore AVL: ";
+    cin >> n;
+    LeitorCovid* leitorCovid = new LeitorCovid(caminho_diretorio, n);
+    HashEncLinear* hash = leitorCovid->getHash();
+    ArvoreAVL* arvore = new ArvoreAVL();
+
+    for(int i = 0; i < n; i++)
+    {
+        //arvore->insertNode();
+    }
+
+    if (n <= 20)
+    {
+        hash->imprime();
+    }
+    else
+    {
+        hash->imprimeArquivo();
+    }
+    delete leitorCovid;
+    delete hash; 
 }
