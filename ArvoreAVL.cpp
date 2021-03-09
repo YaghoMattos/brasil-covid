@@ -228,16 +228,21 @@ void ArvoreAVL::imprimeNo(int valor) // imprime o no buscado
        cout << "Noh:" << q->getValor() << "Altura: " << q->getAltura() << endl; // imprime o valor e a altura do no 
     }
 }
-void ArvoreAVL::impressaoTodosNos(Node* impressaoNo)
+void ArvoreAVL::impressaoTodosNos(Node* impressaoNo)//imprime todos os nos da arvore
 {
-    if(noRaiz == nullptr)
+    if(noRaiz == nullptr)//se a arvore for null
     {
-        cout<<"a arvore se encontra vazia"<<endl;
+        cout<<"a arvore se encontra vazia"<<endl;//imprimi que ela e vazia
     }
-    else
+    else//se tiver ao menos 1 no
     {
+        if(impressaoNo == nullptr)
+        {
+            
+        }
         cout<<"No: "<<impressaoNo->getValor()<<endl;
         impressaoTodosNos(impressaoNo->getFilhoDir());
         impressaoTodosNos(impressaoNo->getFilhoEsq());
+
     }
 }
