@@ -219,7 +219,7 @@ void arvoreAVL(){
     cout << "Selecione o numero de chaves a ser inserido na arvore AVL: ";
     cin >> n;
     LeitorCovid* leitorCovid = new LeitorCovid(caminho_diretorio, n);
-    HashEncLinear* hash = leitorCovid->getHash();
+    //HashEncLinear* hash = leitorCovid->getHash();
     ArvoreAVL* arvore = new ArvoreAVL();
 
     for(int i = 0; i < n; i++)
@@ -233,8 +233,8 @@ void arvoreAVL(){
     }
     else
     {
-        hash->imprimeArquivo();
+        //hash->imprimeArquivo();
     }
     delete leitorCovid;
-    delete hash; 
+    //delete hash; 
 }

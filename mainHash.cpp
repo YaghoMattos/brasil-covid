@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <string>
 #include "bucket.h"
 #include "table.h"
@@ -25,7 +25,6 @@ int main()
     long long k = 1245632045;
     cout << funcHash.hg(k, 0) << endl;
 
-    /**Insercao*/
     h = funcHash.hg(k, t.getNivel());
     if(h < t.getSplit()) {
         h = funcHash.hgMoreOne(k, t.getNivel());
@@ -34,11 +33,11 @@ int main()
     if(baldinho->temEspaco()) {
         t.tabela.at(h);
     }
-    else { /* Insere k na area de overflow*/ }
+    else { }
 
     if(t.fatorCarga() == 0.8) {
         t.divideBalde();
     }
 
     return 0;
-}
+}*/

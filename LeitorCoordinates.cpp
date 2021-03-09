@@ -39,6 +39,8 @@ void LeitorCoordinates::arquivoEntrada()
 
 void LeitorCoordinates::leitura()
 {
+    this->timerStart(); //Inicia contagem de tempo
+
     vector<CitiesCoordinates *> data;
     bool headerProcessado;
     string line;
@@ -59,7 +61,7 @@ void LeitorCoordinates::leitura()
     headerProcessado = false;
     int pos = 0;
 
-    if(this->n != 0)
+    if (this->n != 0)
         data.resize(n);
 
     while (getline(arquivo_entrada, line))
@@ -78,9 +80,9 @@ void LeitorCoordinates::leitura()
         else
         {
             unsigned int i = 0;
-            if(n != 0)
+            if (n != 0)
             {
-                while(data[i] != nullptr)
+                while (data[i] != nullptr)
                     i = getRand(n);
             }
 
@@ -96,15 +98,15 @@ void LeitorCoordinates::leitura()
                 u->longitude = strToFloat(result[4]);
                 u->capital = strToBool(result[5]);
 
-                if(n != 0)
+                if (n != 0)
                     data[i] = u;
                 else
                     data.push_back(u);
                 pos++;
             }
 
-            if(n != 0)
-                if(pos == n)
+            if (n != 0)
+                if (pos == n)
                 {
                     break;
                 }
@@ -118,15 +120,25 @@ void LeitorCoordinates::leitura()
         arquivo_entrada.close();
     }
 
-    //cout << "Inserindo na QuadTree" << endl;
+    double tempo;
+    tempo = this->timerEnd();
+
+    cout << "Leitura Realizada em " << tempo << " segundos, "
+         << "Comecando insecao na QuadTree" << endl << endl;
+    
+    tempo = 0;
+    this->timerStart();
     coordinates = new QuadTree();
     for (auto it = data.begin(); it != data.end(); it++)
     {
         //cout << "Inserindo QuadTree\n";
         coordinates->inserir(*it);
     }
+    tempo = this->timerEnd();
+    cout << "Insercao realizada em " << tempo << " segundos" << endl;
 }
 
-QuadTree* LeitorCoordinates::getQuadTree(){
+QuadTree *LeitorCoordinates::getQuadTree()
+{
     return this->coordinates;
 }

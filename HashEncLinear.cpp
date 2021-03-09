@@ -4,7 +4,6 @@ HashEncLinear::HashEncLinear(int tam)
 {
     this->tamanho = tam;
     this->primo = this->encontraPrimo(tam);
-
     this->HashMap = new HashItem[tam];
     for (int i = 0; i < tam; i++)
     {
@@ -49,7 +48,9 @@ void HashEncLinear::inserir(CitiesCovid *item)
             j++;
             hash_search++;
         }
+        //cout << "saiu do while" << endl;
     }
+    //cout << "saiu do else, deveria terminar a insercao aqui" << endl;
 }
 
 bool HashEncLinear::buscar(CitiesCovid *item)

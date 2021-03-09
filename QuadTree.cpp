@@ -205,7 +205,7 @@ void QuadTree::imprimirAux(NoQuadTree *p, int nivel)
     {
         line += "( nivel: " + to_string(nivel) + " )";
         line += "---> " + to_string(p->getInfo()->codigo_cidade);
-        line += "X: " + to_string(p->getX()) + " Y: " + to_string(p->getY());
+        line += " X: " + to_string(p->getX()) + " Y: " + to_string(p->getY());
 
         Log::getInstance().lineArquivo(line);
 

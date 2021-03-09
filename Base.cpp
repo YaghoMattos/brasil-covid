@@ -77,3 +77,16 @@ int Base::getRand(int maxRand)
     uniform_int_distribution<int> distribuition(0, maxRand);
     return distribuition(generator);
 }
+
+void Base::timerStart()
+{
+    start = std::chrono::system_clock::now();
+}
+
+double Base::timerEnd()
+{
+    end = std::chrono::system_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end - start;
+    double duracao = elapsed_seconds.count();
+    return duracao;
+}
