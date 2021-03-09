@@ -27,8 +27,10 @@ private:
 
 public:
     LeitorCoordinates();
-
+    LeitorCoordinates(string caminhoArquivo,int num);
     LeitorCoordinates(string caminhoArquivo);
+
+    QuadTree* getQuadTree();
 
     ~LeitorCoordinates();
 };

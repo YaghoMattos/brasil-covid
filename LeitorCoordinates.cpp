@@ -1,7 +1,20 @@
 #include "LeitorCoordinates.h"
 LeitorCoordinates::LeitorCoordinates()
 {
-    this->caminho_arquivo = "C:\\Users\\Renan\\Desktop\\Datasets";
+    this->caminho_arquivo = "";
+    //this->caminho_arquivo = "C:\\Users\\Renan\\Desktop\\Datasets";
+
+    this->n = 0;
+
+    this->arquivoEntrada();
+    this->leitura();
+}
+
+LeitorCoordinates::LeitorCoordinates(string caminhoArquivo, int num)
+{
+    this->caminho_arquivo = caminhoArquivo;
+
+    this->n = num;
 
     this->arquivoEntrada();
     this->leitura();
@@ -10,6 +23,8 @@ LeitorCoordinates::LeitorCoordinates()
 LeitorCoordinates::LeitorCoordinates(string caminhoArquivo)
 {
     this->caminho_arquivo = caminhoArquivo;
+
+    this->n = 0;
 
     this->arquivoEntrada();
     this->leitura();
@@ -44,6 +59,9 @@ void LeitorCoordinates::leitura()
     headerProcessado = false;
     int pos = 0;
 
+    if(this->n != 0)
+        data.resize(n);
+
     while (getline(arquivo_entrada, line))
     {
         vector<string> result = explode(line, ','); // Quebra a string em partes menores
@@ -59,18 +77,37 @@ void LeitorCoordinates::leitura()
         }
         else
         {
+            unsigned int i = 0;
+            if(n != 0)
+            {
+                while(data[i] != nullptr)
+                    i = getRand(n);
+            }
+
             //cout << "Processando Coordenadas de numero: " << pos << endl;
             CitiesCoordinates *u = new CitiesCoordinates();
 
-            u->codigo_estado = strToInt(result[0]);
-            u->codigo_cidade = strToInt(result[1]);
-            u->nome_cidade = result[2];
-            u->latitude = strToFloat(result[3]);
-            u->longitude = strToFloat(result[4]);
-            u->capital = strToBool(result[5]);
+            if (result.size() > 1)
+            {
+                u->codigo_estado = strToInt(result[0]);
+                u->codigo_cidade = strToInt(result[1]);
+                u->nome_cidade = result[2];
+                u->latitude = strToFloat(result[3]);
+                u->longitude = strToFloat(result[4]);
+                u->capital = strToBool(result[5]);
 
-            data.push_back(u);
-            pos++;
+                if(n != 0)
+                    data[i] = u;
+                else
+                    data.push_back(u);
+                pos++;
+            }
+
+            if(n != 0)
+                if(pos == n)
+                {
+                    break;
+                }
         }
     }
 
@@ -81,11 +118,15 @@ void LeitorCoordinates::leitura()
         arquivo_entrada.close();
     }
 
-    cout << "Inserindo na QuadTree" << endl;
+    //cout << "Inserindo na QuadTree" << endl;
     coordinates = new QuadTree();
     for (auto it = data.begin(); it != data.end(); it++)
     {
-        //cout << "Data " << " : " << it.codigo_cidade << endl;
+        //cout << "Inserindo QuadTree\n";
         coordinates->inserir(*it);
     }
+}
+
+QuadTree* LeitorCoordinates::getQuadTree(){
+    return this->coordinates;
 }

@@ -4,21 +4,34 @@ LeitorCovid::LeitorCovid(string caminhoArquivo)
 {
     this->caminho_arquivo = caminhoArquivo;
 
-        this->arquivoEntrada();
-        this->leitura();
+    this->n = 0;
+
+    this->arquivoEntrada();
+    this->leitura();
 }
 
-LeitorCovid::~LeitorCovid() {}
+LeitorCovid::LeitorCovid(string caminhoArquivo, int n)
+{
+    this->caminho_arquivo = caminhoArquivo;
+
+    this->n = n;
+
+    this->arquivoEntrada();
+    this->leitura();
+}
+
+LeitorCovid::~LeitorCovid() {
+    delete hash;
+}
 
 void LeitorCovid::arquivoEntrada()
 {
-    this->caminho_arquivo += getSeparadorDiretorio() + "brazil_cities_covid_cities_processado.csv";
+    this->caminho_arquivo += getSeparadorDiretorio() + "brazil_covid19_cities_processado.csv";
     cout << "Caminho corrigido: " << this->caminho_arquivo << endl;
 }
 
 void LeitorCovid::leitura()
 {
-    //Hash = new Hash();
     vector<CitiesCovid *> data;
     bool headerProcessado;
     string line;
@@ -39,6 +52,9 @@ void LeitorCovid::leitura()
     headerProcessado = false;
     int pos = 0;
 
+    if (this->n != 0)
+        data.resize(n);
+
     while (getline(arquivo_entrada, line))
     {
         vector<string> result = explode(line, ','); // Quebra a string em partes menores
@@ -54,20 +70,40 @@ void LeitorCovid::leitura()
         }
         else
         {
+            unsigned int i = 0;
+            if (n != 0)
+            {
+                while (data[i] != nullptr)
+                    i = getRand(n);
+            }
+
+            vector<string> aux = explode(result[0], '-');
             //cout << "Processando Coordenadas de numero: " << pos << endl;
             CitiesCovid *u = new CitiesCovid();
 
-            u->dia;
-            u->mes;
-            u->ano;
-            u->sigla_estado;
-            u->nome;
-            u->codigo;
-            u->casos;
-            u->mortes;
+            if (result.size() > 1)
+            {
+                u->dia = aux[2];
+                u->mes = aux[1];
+                u->ano = aux[0];
+                u->sigla_estado = result[1];
+                u->nome = result[2];
+                u->codigo = strToInt(result[3]);
+                u->casos = strToInt(result[4]);
+                u->mortes = strToInt(result[5]);
 
-            data.push_back(u);
-            pos++;
+                if (n != 0)
+                    data[i] = u;
+                else
+                    data.push_back(u);
+                pos++;
+            }
+
+            if (n != 0)
+                if (pos == n)
+                {
+                    break;
+                }
         }
     }
 
@@ -78,9 +114,16 @@ void LeitorCovid::leitura()
         arquivo_entrada.close();
     }
 
-    /*cout << "Inserindo no Hash" << endl;
-        for (int i = 0; i < n; i++)
-        {
-            Hash->inserir(data[i]);
-        }*/
+    hash = new HashEncLinear(n);
+    //cout << "Inserindo no Hash" << endl;
+    for (int i = 0; i < n; i++)
+    {
+        hash->inserir(data[i]);
+    }
+
+    //hash->imprime();
+}
+
+HashEncLinear* LeitorCovid::getHash(){
+    return this->hash;
 }

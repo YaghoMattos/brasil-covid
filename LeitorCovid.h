@@ -11,6 +11,7 @@
 #include "CitiesCovid.h"
 #include "QuadTree.h"
 #include "Log.h"
+#include "HashEncLinear.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ class LeitorCovid : public Base
 private:
     string caminho_arquivo;
     int n; //Numero de registros;
-    //Hash
+    HashEncLinear* hash;
 
     void arquivoEntrada();
 
@@ -28,7 +29,10 @@ private:
 
 public:
     LeitorCovid(string caminhoArquivo);
+    LeitorCovid(string caminhoArquivo,int n);
     ~LeitorCovid();
+
+    HashEncLinear* getHash();
 };
 
 #endif // LEITURA_LEITORCOVID_H

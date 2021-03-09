@@ -1,0 +1,50 @@
+
+# Created by https://www.toptal.com/developers/gitignore/api/vscode,codeblocks,text,executable
+# Edit at https://www.toptal.com/developers/gitignore?templates=vscode,codeblocks,text,executable
+
+### CodeBlocks ###
+# specific to CodeBlocks IDE
+*.layout
+*.depend
+# generated directories
+bin/
+obj/
+
+### Executable ###
+*.app
+*.bat
+*.cgi
+*.com
+*.exe
+*.gadget
+*.jar
+*.pif
+*.vb
+*.wsf
+*.exe
+
+### Text ###
+*.doc
+*.docx
+*.log
+*.msg
+*.pages
+*.rtf
+*.txt
+*.wpd
+*.wps
+*.csv
+
+### vscode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+#### Pastas para ignorar ####
+Datasets/
+Saidas/
+
+# End of https://www.toptal.com/developers/gitignore/api/vscode,codeblocks,text,executable

@@ -3,6 +3,8 @@
 
 /*Bibliotecas criadas*/
 #include "QuadTree.h"
+#include "HashEncLinear.h"
+#include "ArvoreAVL.h"
 #include "LeitorCoordinates.h"
 #include "LeitorCovid.h"
 
@@ -13,7 +15,14 @@ string caminho_diretorio;
 int menu();
 void laco();
 void selecionado(int chave);
-void menuTestes();
+int menuTestes();
+void moduloTestes();
+void selecionadoTestes(int chave);
+
+/*Casos de Teste*/
+void quadTree();
+void funcaoHash();
+void arvoreAVL();
 
 int main(int argc, char *argv[])
 {
@@ -101,8 +110,131 @@ void selecionado(int chave)
     case 3:
         break;
     case 4:
+        moduloTestes();
         break;
     default:
         break;
     }
+}
+
+int menuTestes()
+{
+    int opcao;
+
+    cout << "\t\tModulo de testes" << endl
+         << "*----------------------------------------------------------------------*" << endl;
+menu:
+    cout << "[01] Insercao de N chaves na QuadTree; " << endl
+         << "[02] Insercao de N registros na TabelaHash; " << endl
+         << "[03] Insercao de N chaves na Arvore AVL; " << endl
+         << "[04] Insercao de N chaves na Arvore B; " << endl
+         << " [0] Sair;" << endl;
+    cout << "Opcao: ";
+    cin >> opcao;
+
+    if (opcao != 1 && opcao != 2 && opcao != 3 && opcao != 4 && opcao != 0)
+    {
+        goto menu;
+    }
+
+    return opcao;
+}
+
+void moduloTestes()
+{
+    int selecao = -1;
+
+    while (selecao != 0)
+    {
+        selecao = menuTestes();
+        if (selecao >= 0 && selecao < 6)
+        {
+            selecionadoTestes(selecao);
+        }
+    }
+
+    cout << "Finalizando menu de testes..." << endl;
+    return;
+}
+
+void selecionadoTestes(int chave)
+{
+    switch (chave)
+    {
+    case 1:
+        quadTree();
+        break;
+    case 2:
+        funcaoHash();
+        break;
+    case 3:
+        arvoreAVL();
+        break;
+    default:
+        break;
+    }
+}
+
+void quadTree()
+{
+
+    int n = 0;
+    cout << "Selecione o numero de chaves a ser inserido na QuadTree: ";
+    cin >> n;
+    LeitorCoordinates *leitorCoordinate = new LeitorCoordinates(caminho_diretorio, n);
+    QuadTree *quad = leitorCoordinate->getQuadTree();
+    if (n <= 20)
+    {
+        quad->imprimirTela();
+    }
+    else
+    {
+        quad->imprimir();
+    }
+    delete leitorCoordinate;
+    delete quad;
+}
+
+void funcaoHash()
+{
+    int n = 0;
+    cout << "Selecione o numero de registros a ser inserido na Tabela Hash de Encadeamento Linear: ";
+    cin >> n;
+    LeitorCovid* leitorCovid = new LeitorCovid(caminho_diretorio, n);
+    HashEncLinear* hash = leitorCovid->getHash();
+    if (n <= 20)
+    {
+        hash->imprime();
+    }
+    else
+    {
+        hash->imprimeArquivo();
+    }
+    delete leitorCovid;
+    delete hash;
+}
+
+void arvoreAVL(){
+    int n = 0;
+    cout << "Selecione o numero de chaves a ser inserido na arvore AVL: ";
+    cin >> n;
+    LeitorCovid* leitorCovid = new LeitorCovid(caminho_diretorio, n);
+    HashEncLinear* hash = leitorCovid->getHash();
+    ArvoreAVL* arvore = new ArvoreAVL();
+
+    for(int i = 0; i < n; i++)
+    {
+        cout << "Inserindo na arvore" << endl;
+        arvore->insertNode(i);
+    }
+
+    if (n <= 20)
+    {
+    }
+    else
+    {
+        hash->imprimeArquivo();
+    }
+    delete leitorCovid;
+    delete hash; 
 }
