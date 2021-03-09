@@ -21,6 +21,7 @@ obj/
 *.pif
 *.vb
 *.wsf
+*.exe
 
 ### Text ###
 *.doc
@@ -44,5 +45,6 @@ obj/
 
 #### Pastas para ignorar ####
 Datasets/
+Saidas/
 
 # End of https://www.toptal.com/developers/gitignore/api/vscode,codeblocks,text,executable

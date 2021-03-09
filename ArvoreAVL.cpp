@@ -1,9 +1,11 @@
 #include "ArvoreAVL.h"
+#include "BaseArvores.h"
 
 
 ArvoreAVL::ArvoreAVL()//construtor
 {
     this->noRaiz = nullptr;//aloca raiz inicial como null
+    this->resetaComparacoes(); // reseta numero de comparaçoes
 }
 
 ArvoreAVL::~ArvoreAVL()//destrutor
@@ -20,10 +22,13 @@ void ArvoreAVL::setRaiz(Node* novaRaiz)//aloca uma nova raiz passando a nova rai
 }
 Node* ArvoreAVL::buscadorDeNoPai(int valor, Node* auxiliar)//busca um nó na arvore a partir do valor, retornando o pai desse nó se existir, ou o no pai caso nao exista
 {
+    
     while (auxiliar != nullptr)//enquanto esse auxiliar for diferente de null percorre a arvore
     {
+
         if(valor > auxiliar->getValor())//se o valor passado for maior que do auxiliar, vai para a direita
         {
+            this->aumentaNumComp();    
             if(auxiliar->getFilhoDir() == nullptr)//se o filho a direita for null, entao o no nao existe na arvore 
             {
                 return auxiliar;//e retorna o seu pai
@@ -33,6 +38,7 @@ Node* ArvoreAVL::buscadorDeNoPai(int valor, Node* auxiliar)//busca um nó na arv
         }
         else if(valor < auxiliar->getValor())//se o valor for menor que o do auxiliar vai para a esquerda
         {
+            this->aumentaNumComp();
             if(auxiliar->getFilhoEsq() == nullptr)//se o filho a esquerda for null, entao o nó nao existe na arvore
             {
                 return auxiliar;//retorna o nó pai
@@ -42,6 +48,7 @@ Node* ArvoreAVL::buscadorDeNoPai(int valor, Node* auxiliar)//busca um nó na arv
         }
         else if(auxiliar->getValor() == valor )//caso o valor seja igual ao passado
         {
+            this->aumentaNumComp();
             return auxiliar;//retorna o ponteiro para este nó
         }
     }
@@ -51,12 +58,22 @@ bool ArvoreAVL::estahNaArvore(int valor, Node* ponteiroNo) // retorna verdadeiro
 {
     while (ponteiroNo!=nullptr)//enquanto no passado for diferente de null
     {
-    if(valor < ponteiroNo->getValor()) // compara o valor passado com o ponteiro para o no da arvore
-        estahNaArvore(valor, ponteiroNo->getFilhoEsq());//se o valor passado for menor que o valor da raiz atual ele anda pra esquerda 
-    else if(valor > ponteiroNo->getValor())//se o valor passado for maior que o valor da raiz apontada atualmente 
-        estahNaArvore(valor, ponteiroNo->getFilhoDir());//anda pra direita
-    else if(valor == ponteiroNo->getValor())//se o valor for igual
-        return true;//retorna que o nó existe na raiz
+        if(valor < ponteiroNo->getValor()) // compara o valor passado com o ponteiro para o no da arvore
+        {
+           this->aumentaNumComp();
+          estahNaArvore(valor, ponteiroNo->getFilhoEsq());//se o valor passado for menor que o valor da raiz atual ele anda pra esquerda 
+        }
+    
+        else if(valor > ponteiroNo->getValor())//se o valor passado for maior que o valor da raiz apontada atualmente 
+        {
+            this->aumentaNumComp();
+            estahNaArvore(valor, ponteiroNo->getFilhoDir());//anda pra direita
+        }
+        else if(valor == ponteiroNo->getValor())//se o valor for igual
+        {
+            this->aumentaNumComp();
+            return true;//retorna que o nó existe na raiz
+        }
     }
     //caso saia do while, é por que nao existe
     return false;//entao retorna false (nao existe este nó na arvore)
@@ -68,6 +85,7 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
     {
         if(valor < auxiliar->getValor()) //se o valor que foi passado é maior do que o valor do no
         {
+            this->aumentaNumComp();
             checkbalance(valor, auxiliar->getFilhoEsq());//o ponteiro anda para a esquerda
             auxiliar->atualizaAltura(); //primeiro atualiza a altura para nao dar erro no FB
             auxiliar->atualizaFB();// depois da recursao, ele volta atualizando o fator balance
@@ -94,6 +112,7 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
         }
         else if(valor > auxiliar->getValor())//se o valor for maior do que o atual no ponteiro
         {
+            this->aumentaNumComp();
             checkbalance(valor, auxiliar->getFilhoDir());//o ponteiro anda para a direita
             auxiliar->atualizaAltura(); // atualiza altura antes de fb para nao ocorrer erros
             auxiliar->atualizaFB();// depois da recursao, ele volta atualizando o fator balance
@@ -121,6 +140,7 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
         }
         else if(valor == auxiliar->getValor())//se o valor for igual
         {
+            this->aumentaNumComp();
             auxiliar->atualizaAltura(); // atualiza altura antes de tudo para nao dar erro no fb
             auxiliar->atualizaFB();//atualiza o FB do atual e volta a recursividade anterior
         }
@@ -144,9 +164,15 @@ void ArvoreAVL::insertNode(int valor)//insere um novo nó na arvore
         Node* noPai; //cria um ponteiro para o no pai
         noPai = buscadorDeNoPai(valor,noRaiz);//aloca o no pai no ponteiro
         if(valor < noPai->getValor())//se o valor for menor que o no pai
+        {
+            this->aumentaNumComp();
             noPai->setFilhoEsq(no); // ele vai ser o filho a esquerda
+        }
         else if(valor > noPai->getValor())//se o valor for maior que o no pai
+        {
+            this->aumentaNumComp();   
             noPai->setFilhoDir(no); //ele aloca na direita
+        }
     }
     checkbalance(valor,this->noRaiz);// confere balanceamento e balanceia a arvore
     cout << "no inserido com sucesso e arvore jah balanceada" << endl;//printa o sucesso
@@ -200,5 +226,23 @@ void ArvoreAVL::imprimeNo(int valor) // imprime o no buscado
     {
        Node* q = buscadorDeNoPai(valor, noRaiz); // busca o no e o retorna
        cout << "Noh:" << q->getValor() << "Altura: " << q->getAltura() << endl; // imprime o valor e a altura do no 
+    }
+}
+void ArvoreAVL::impressaoTodosNos(Node* impressaoNo)//imprime todos os nos da arvore
+{
+    if(noRaiz == nullptr)//se a arvore for null
+    {
+        cout<<"a arvore se encontra vazia"<<endl;//imprimi que ela e vazia
+    }
+    else//se tiver ao menos 1 no
+    {
+        if(impressaoNo == nullptr)
+        {
+            
+        }
+        cout<<"No: "<<impressaoNo->getValor()<<endl;
+        impressaoTodosNos(impressaoNo->getFilhoDir());
+        impressaoTodosNos(impressaoNo->getFilhoEsq());
+
     }
 }

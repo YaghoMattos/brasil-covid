@@ -4,12 +4,13 @@
 #include <iostream>
 #include <fstream>
 #include "Log.h"
+#include "BaseArvores.h"
 #include "NoQuadtree.h"
 #include "CitiesCoordinates.h"
 
 using namespace std;
 
-class QuadTree
+class QuadTree : public BaseArvores
 {
 private:
     NoQuadTree *raiz;

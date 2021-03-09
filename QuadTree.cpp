@@ -1,7 +1,15 @@
 #include "QuadTree.h"
 
-QuadTree::QuadTree() { this->raiz = nullptr; }
-QuadTree::QuadTree(NoQuadTree *_raiz) { this->raiz = _raiz; }
+QuadTree::QuadTree()
+{
+    this->raiz = nullptr;
+    this->resetaComparacoes();
+}
+QuadTree::QuadTree(NoQuadTree *_raiz)
+{
+    this->raiz = _raiz;
+    this->resetaComparacoes();
+}
 QuadTree::~QuadTree() {}
 
 void QuadTree::inserir(CitiesCoordinates *info)
@@ -29,8 +37,10 @@ void QuadTree::inserir(CitiesCoordinates *info)
         {
             if (p->getX() < novoNo->getX())
             {
+                this->aumentaNumComp();
                 if (p->getY() < novoNo->getX())
                 {
+                    this->aumentaNumComp();
                     if (p->getSuldeste() == nullptr)
                     {
                         //cout << "Suldeste\n";
@@ -60,6 +70,7 @@ void QuadTree::inserir(CitiesCoordinates *info)
             }
             else if (p->getY() < novoNo->getY())
             {
+                this->aumentaNumComp();
                 if (p->getSuldoeste() == nullptr)
                 {
                     //cout << "Suldoeste\n";
@@ -133,8 +144,10 @@ bool QuadTree::search(NoQuadTree *p)
     NoQuadTree *no = this->raiz;
     if (no->getX() < p->getX())
     {
+        this->aumentaNumComp();
         if (no->getY() < p->getX())
         {
+            this->aumentaNumComp();
             no = no->getSuldeste();
         }
         else
@@ -144,6 +157,7 @@ bool QuadTree::search(NoQuadTree *p)
     }
     else if (no->getY() < p->getY())
     {
+        this->aumentaNumComp();
         no = no->getSuldoeste();
     }
     else
