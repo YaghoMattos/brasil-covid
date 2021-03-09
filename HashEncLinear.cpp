@@ -18,7 +18,7 @@ HashEncLinear::~HashEncLinear()
     delete[] HashMap;
 }
 
-void HashEncLinear::inserir(CitiesCovid* item)
+void HashEncLinear::inserir(CitiesCovid *item)
 {
     string data = "";
     data += item->dia;
@@ -51,38 +51,38 @@ void HashEncLinear::inserir(CitiesCovid* item)
     }
 }
 
-bool HashEncLinear::buscar(CitiesCovid* item)
+bool HashEncLinear::buscar(CitiesCovid *item)
 {
     string data = "";
     data += item->dia + item->mes + item->ano;
 
     int hash = divisao(item->codigo, data);
 
-    if(HashMap[hash].chave == item->codigo && HashMap[hash].data.compare(item->dia+"-"+item->mes+"-"+item->ano))
+    if (HashMap[hash].chave == item->codigo && HashMap[hash].data.compare(item->dia + "-" + item->mes + "-" + item->ano))
     {
         return true;
     }
 
     int j = 1;
-    int hash_search = hash+1;
-    while(j < this->tamanho)
+    int hash_search = hash + 1;
+    while (j < this->tamanho)
     {
-        if(HashMap[hash_search].chave == item->codigo  && HashMap[hash].data.compare(item->dia+"-"+item->mes+"-"+item->ano))
+        if (HashMap[hash_search].chave == item->codigo && HashMap[hash].data.compare(item->dia + "-" + item->mes + "-" + item->ano))
         {
             return true;
         }
         j++;
         hash_search++;
-        if(hash_search >= tamanho)
+        if (hash_search >= tamanho)
         {
             hash_search = 0;
         }
     }
-    
+
     return false;
 }
 
-HashItem HashEncLinear::criaItem(CitiesCovid* item)
+HashItem HashEncLinear::criaItem(CitiesCovid *item)
 {
     HashItem h;
     h.chave = item->codigo;
@@ -100,6 +100,24 @@ void HashEncLinear::imprime()
         cout << "#" << i << ": "
              << "id: " << HashMap[i].chave << ", "
              << "data: " << HashMap[i].data << endl;
+    }
+}
+
+void HashEncLinear::imprimeArquivo()
+{
+    Log::getInstance().iniciaArquivoSaida("Saidas\\HashEncLinear.txt");
+
+    string line = "";
+    line += "---------- Imprimindo Tabela Hash ------------";
+    Log::getInstance().lineArquivo(line);
+
+    for (int i = 0; i < this->tamanho; i++)
+    {
+        line = "";
+        line += "#" + to_string(i) + ": " +
+                "id: " + to_string(HashMap[i].chave) + ", " + "data: " + HashMap[i].data;
+
+        Log::getInstance().lineArquivo(line);
     }
 }
 

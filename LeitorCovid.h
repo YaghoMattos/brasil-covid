@@ -29,7 +29,10 @@ private:
 
 public:
     LeitorCovid(string caminhoArquivo);
+    LeitorCovid(string caminhoArquivo,int n);
     ~LeitorCovid();
+
+    HashEncLinear* getHash();
 };
 
 #endif // LEITURA_LEITORCOVID_H

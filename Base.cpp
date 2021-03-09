@@ -1,8 +1,8 @@
 #include "Base.h"
 
-Base::Base(){}
+Base::Base() {}
 
-Base::~Base(){}
+Base::~Base() {}
 
 string Base::getSeparadorDiretorio()
 {
@@ -70,4 +70,10 @@ float Base::strToFloat(string s)
 bool Base::strToBool(string s)
 {
     return (s == "TRUE" || s == "true");
+}
+
+int Base::getRand(int maxRand)
+{
+    uniform_int_distribution<int> distribuition(0, maxRand);
+    return distribuition(generator);
 }

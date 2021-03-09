@@ -14,6 +14,7 @@ class Base
 {
 private:
     string caminho_diretorio;
+    default_random_engine generator;
 
 public:
     Base();
@@ -24,6 +25,7 @@ public:
     int strToInt(string s);
     float strToFloat(string s);
     bool strToBool(string s);
+    int getRand(int maxRand);
 };
 
 #endif // BASE_H_INCLUDED

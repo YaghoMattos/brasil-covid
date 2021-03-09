@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include "Log.h"
 #include "HashItem.h"
 #include "CitiesCovid.h"
 
@@ -18,6 +19,7 @@ class HashEncLinear{
 
         int getTamanho();
         void imprime();
+        void imprimeArquivo();
     private:
         int tamanho;
         int primo;

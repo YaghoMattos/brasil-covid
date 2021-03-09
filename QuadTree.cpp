@@ -151,3 +151,53 @@ bool QuadTree::search(NoQuadTree *p)
 
     return true;
 }
+
+void QuadTree::imprimirTela()
+{
+    NoQuadTree *p = this->raiz;
+    int nivel = 0;
+    this->imprimirTelaAux(p, nivel);
+}
+
+void QuadTree::imprimirTelaAux(NoQuadTree *p, int nivel)
+{
+    if (p != nullptr)
+    {
+        cout << "( nivel: " << nivel << " )";
+        cout << "---> " << p->getInfo()->codigo_cidade << " X: " << p->getX() << " Y: " << p->getY() << endl;
+
+        imprimirTelaAux(p->getNordeste(), nivel + 1);
+        imprimirTelaAux(p->getNoroeste(), nivel + 1);
+        imprimirTelaAux(p->getSuldeste(), nivel + 1);
+        imprimirTelaAux(p->getSuldoeste(), nivel + 1);
+    }
+
+    return;
+}
+
+void QuadTree::imprimir()
+{
+    Log::getInstance().iniciaArquivoSaida("Saidas\\Quadtree.txt");
+
+    NoQuadTree *p = this->raiz;
+    int nivel = 0;
+    this->imprimirAux(p, nivel);
+}
+
+void QuadTree::imprimirAux(NoQuadTree *p, int nivel)
+{
+    string line = "";
+    if (p != nullptr)
+    {
+        line += "( nivel: " + to_string(nivel) + " )";
+        line += "---> " + to_string(p->getInfo()->codigo_cidade);
+        line += "X: " + to_string(p->getX()) + " Y: " + to_string(p->getY());
+
+        Log::getInstance().lineArquivo(line);
+
+        imprimirAux(p->getNordeste(), nivel + 1);
+        imprimirAux(p->getNoroeste(), nivel + 1);
+        imprimirAux(p->getSuldeste(), nivel + 1);
+        imprimirAux(p->getSuldoeste(), nivel + 1);
+    }
+}
