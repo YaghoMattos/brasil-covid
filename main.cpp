@@ -249,14 +249,16 @@ void arvoreAVL(){
 
     ArvoreAVL* arvore = new ArvoreAVL();
 
-    for(int i = 0; i < n; i++)
+    for(int i = 5; i >= n; i--)
     {
         cout << "Inserindo na arvore" << endl;
-        arvore->insertNode(hash->getHashMap(i).chave);
+        //arvore->insertNode(hash->getHashMap(i).chave);
+       arvore->insertNode(i);
     }
 
     if (n <= 20)
     {
+        arvore->imprimeArvore();
     }
     else
     {

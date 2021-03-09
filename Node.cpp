@@ -28,7 +28,12 @@ int Node::getValor()//pega o valor armazenado no nó da arvore
 }
 Node* Node::getFilhoDir()//pega o filho a direita daquele nó
 {
-    return this->filhoDir;//retorna filho a direita
+    if(this->filhoDir == nullptr)
+    {
+        return nullptr;
+    }
+    else
+        return this->filhoDir;//retorna filho a direita
 }
 Node* Node::getFilhoEsq()//pega o filho a esquerda daquele nó
 {

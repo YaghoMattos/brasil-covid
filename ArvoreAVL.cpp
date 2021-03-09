@@ -23,7 +23,7 @@ void ArvoreAVL::setRaiz(Node* novaRaiz)//aloca uma nova raiz passando a nova rai
 Node* ArvoreAVL::buscadorDeNoPai(int valor, Node* auxiliar)//busca um nó na arvore a partir do valor, retornando o pai desse nó se existir, ou o no pai caso nao exista
 {
     
-    while (auxiliar != nullptr)//enquanto esse auxiliar for diferente de null percorre a arvore
+    if (auxiliar != nullptr)//enquanto esse auxiliar for diferente de null percorre a arvore
     {
 
         if(valor > auxiliar->getValor())//se o valor passado for maior que do auxiliar, vai para a direita
@@ -52,98 +52,114 @@ Node* ArvoreAVL::buscadorDeNoPai(int valor, Node* auxiliar)//busca um nó na arv
             return auxiliar;//retorna o ponteiro para este nó
         }
     }
+    else
+        return auxiliar;
 }
 
 bool ArvoreAVL::estahNaArvore(int valor, Node* ponteiroNo) // retorna verdadeiro ou falso se o nó esta na arvore
 {
-    while (ponteiroNo!=nullptr)//enquanto no passado for diferente de null
-    {
-        if(valor < ponteiroNo->getValor()) // compara o valor passado com o ponteiro para o no da arvore
+    if(ponteiroNo != nullptr)
+    { 
+        if (ponteiroNo->getValor() == valor)
         {
-           this->aumentaNumComp();
-          estahNaArvore(valor, ponteiroNo->getFilhoEsq());//se o valor passado for menor que o valor da raiz atual ele anda pra esquerda 
+            return true;
+        }
+        else if (valor > ponteiroNo->getValor())
+        {
+            if(ponteiroNo->getFilhoDir() == nullptr)
+            {
+                return false;
+            }
+            else
+            {
+                estahNaArvore(valor,ponteiroNo->getFilhoDir());
+            }
+        }
+        else if(valor < ponteiroNo->getValor())
+        {
+            if(ponteiroNo->getFilhoEsq() == nullptr)
+            {
+                return false;
+            }
+            else
+            {
+                estahNaArvore(valor,ponteiroNo->getFilhoEsq());
+            }
         }
     
-        else if(valor > ponteiroNo->getValor())//se o valor passado for maior que o valor da raiz apontada atualmente 
-        {
-            this->aumentaNumComp();
-            estahNaArvore(valor, ponteiroNo->getFilhoDir());//anda pra direita
-        }
-        else if(valor == ponteiroNo->getValor())//se o valor for igual
-        {
-            this->aumentaNumComp();
-            return true;//retorna que o nó existe na raiz
-        }
     }
-    //caso saia do while, é por que nao existe
-    return false;//entao retorna false (nao existe este nó na arvore)
+    else
+        return false;
 }
 
 void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
 {
-    while(auxiliar != nullptr)//enquanto no raiz diferente de null
+    if(valor < auxiliar->getValor()) //se o valor que foi passado é maior do que o valor do no
     {
-        if(valor < auxiliar->getValor()) //se o valor que foi passado é maior do que o valor do no
+        cout<<"vai para a esquerda"<<endl;
+        this->aumentaNumComp();
+        checkbalance(valor, auxiliar->getFilhoEsq());//o ponteiro anda para a esquerda
+        auxiliar->atualizaAltura(); //primeiro atualiza a altura para nao dar erro no FB
+        auxiliar->atualizaFB();// depois da recursao, ele volta atualizando o fator balance
+        if(!(-2<(auxiliar->getFB())<2))//se esse fator nao estiver na faixa entre -1 e 1
         {
-            this->aumentaNumComp();
-            checkbalance(valor, auxiliar->getFilhoEsq());//o ponteiro anda para a esquerda
-            auxiliar->atualizaAltura(); //primeiro atualiza a altura para nao dar erro no FB
-            auxiliar->atualizaFB();// depois da recursao, ele volta atualizando o fator balance
-            if(!(-2<(auxiliar->getFB())<2))//se esse fator nao estiver na faixa entre -1 e 1
+            if((auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == 1 || auxiliar->getFilhoDir()->getFB() == 0 ) ) //se o fb do no desbalanceado é 2 e o filho a dir é 1 
             {
-                if((auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == 1 || auxiliar->getFilhoDir()->getFB() == 0 ) ) //se o fb do no desbalanceado é 2 e o filho a dir é 1 
-                {
-                    rotacaoSimplesEsq(auxiliar);//executa rotação simples a esquerda
-                }
-                else if((auxiliar->getFB() == (-2)) && (auxiliar->getFilhoEsq()->getFB() == (-1) || auxiliar->getFilhoDir()->getFB() == 0 ))//se o fb do no desbalanceado é -2 e do filho a esquerda é -1
-                {
-                    rotacaoSimplesDir(auxiliar);//executa rotaçao simples a direita
-                }
-                else if( (auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == (-1) ) )
-                {
-                    rotacaoDuplaEsq(auxiliar);//executa rotaçao dupla a esquerda
-                }
-                else if( (auxiliar->getFB() == (-2) ) && (auxiliar->getFilhoDir()->getFB() == 1 ) )
-                {
-                    rotacaoDuplaDir(auxiliar);//executa rotaçao dupla a direita
-                }
+                rotacaoSimplesEsq(auxiliar);//executa rotação simples a esquerda
             }
+            else if((auxiliar->getFB() == (-2)) && (auxiliar->getFilhoEsq()->getFB() == (-1) || auxiliar->getFilhoDir()->getFB() == 0 ))//se o fb do no desbalanceado é -2 e do filho a esquerda é -1
+            {
+                rotacaoSimplesDir(auxiliar);//executa rotaçao simples a direita
+            }
+            else if( (auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == (-1) ) )
+            {
+                rotacaoDuplaEsq(auxiliar);//executa rotaçao dupla a esquerda
+            }
+            else if( (auxiliar->getFB() == (-2) ) && (auxiliar->getFilhoDir()->getFB() == 1 ) )
+            {
+                rotacaoDuplaDir(auxiliar);//executa rotaçao dupla a direita
+            }
+        }
+        cout<<"verificou tudo"<<endl;
     
-        }
-        else if(valor > auxiliar->getValor())//se o valor for maior do que o atual no ponteiro
+    }
+    else if(valor > auxiliar->getValor())//se o valor for maior do que o atual no ponteiro
+    {
+        cout<<"vai para a direita"<<endl;
+        this->aumentaNumComp();
+        checkbalance(valor, auxiliar->getFilhoDir());//o ponteiro anda para a direita
+        auxiliar->atualizaAltura(); // atualiza altura antes de fb para nao ocorrer erros
+        auxiliar->atualizaFB();// depois da recursao, ele volta atualizando o fator balance
+        if(!(-2<(auxiliar->getFB())<2))//se esse fator nao estiver na faixa entre -1 e 1
         {
-            this->aumentaNumComp();
-            checkbalance(valor, auxiliar->getFilhoDir());//o ponteiro anda para a direita
-            auxiliar->atualizaAltura(); // atualiza altura antes de fb para nao ocorrer erros
-            auxiliar->atualizaFB();// depois da recursao, ele volta atualizando o fator balance
-            if(!(-2<(auxiliar->getFB())<2))//se esse fator nao estiver na faixa entre -1 e 1
+            if((auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == 1 || auxiliar->getFilhoDir()->getFB() == 0 ) ) //se o fb do no desbalanceado é 2 e o filho a dir é 1 
             {
-                if((auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == 1 || auxiliar->getFilhoDir()->getFB() == 0 ) ) //se o fb do no desbalanceado é 2 e o filho a dir é 1 
-                {
-                    rotacaoSimplesEsq(auxiliar);//executa rotação simples a esquerda
-                }
-                else if((auxiliar->getFB() == (-2)) && (auxiliar->getFilhoEsq()->getFB() == (-1) || auxiliar->getFilhoDir()->getFB() == 0 ))//se o fb do no desbalanceado é -2 e do filho a esquerda é -1
-                {
-                    rotacaoSimplesDir(auxiliar);//executa rotaçao simples a direita
-                }
-                else if( (auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == (-1) ) )
-                {
-                    rotacaoDuplaEsq(auxiliar);//executa rotaçao dupla a esquerda
-                }
-                else if( (auxiliar->getFB() == (-2) ) && (auxiliar->getFilhoDir()->getFB() == 1 ) )
-                {
-                    rotacaoDuplaDir(auxiliar);//executa rotaçao dupla a direita
-                }
-
+                rotacaoSimplesEsq(auxiliar);//executa rotação simples a esquerda
             }
-            
+            else if((auxiliar->getFB() == (-2)) && (auxiliar->getFilhoEsq()->getFB() == (-1) || auxiliar->getFilhoDir()->getFB() == 0 ))//se o fb do no desbalanceado é -2 e do filho a esquerda é -1
+            {
+                rotacaoSimplesDir(auxiliar);//executa rotaçao simples a direita
+            }
+            else if( (auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == (-1) ) )
+            {
+                rotacaoDuplaEsq(auxiliar);//executa rotaçao dupla a esquerda
+            }
+            else if( (auxiliar->getFB() == (-2) ) && (auxiliar->getFilhoDir()->getFB() == 1 ) )
+            {
+                rotacaoDuplaDir(auxiliar);//executa rotaçao dupla a direita
+            }
+
         }
-        else if(valor == auxiliar->getValor())//se o valor for igual
-        {
-            this->aumentaNumComp();
-            auxiliar->atualizaAltura(); // atualiza altura antes de tudo para nao dar erro no fb
-            auxiliar->atualizaFB();//atualiza o FB do atual e volta a recursividade anterior
-        }
+        cout<<"verificou tudo na direita"<<endl;
+    }
+    else if(valor == auxiliar->getValor())//se o valor for igual
+    {
+        cout<<"valor eh igual"<<endl;
+        this->aumentaNumComp();
+        auxiliar->atualizaAltura(); // atualiza altura antes de tudo para nao dar erro no fb
+        auxiliar->atualizaFB();//atualiza o FB do atual e volta a recursividade anterior
+        cout<<"atualizou tudo e voltou"<<endl;
+        return;
     }
 
 }
@@ -155,25 +171,38 @@ void ArvoreAVL::insertNode(int valor)//insere um novo nó na arvore
         cout << "o no jah existe na arvore" << endl;//printa que o no ja existe
         return;//sai da funçao
     }
+    cout<<"nao entrou no if"<<endl;
     //se nao existe
     Node* no = new Node(valor);//cria um novo no dinamicamente
     if(this->noRaiz == nullptr)//se a raiz for null
-        noRaiz = no;//aloca o novo no na raiz
-    else//se a raiz nao for null
     {
-        Node* noPai; //cria um ponteiro para o no pai
-        noPai = buscadorDeNoPai(valor,noRaiz);//aloca o no pai no ponteiro
+        cout<<"entrou como raiz nula"<<endl;
+        this->noRaiz = no;//aloca o novo no na raiz
+        cout << "anexou raiz com no" << endl;
+        cout << "raiz com valor: "<< noRaiz->getValor() << endl;
+        return;
+    }
+    else if(this->noRaiz != nullptr)//se a raiz nao for null
+    {
+        cout<<"entrou como raiz sem ser nula"<<endl;
+        Node* noPai = buscadorDeNoPai(valor,noRaiz);//aloca o no pai no ponteiro
+        cout<<"nao parou no no pai"<<endl;
         if(valor < noPai->getValor())//se o valor for menor que o no pai
         {
+            cout<<"nao parou no if"<<endl;
             this->aumentaNumComp();
             noPai->setFilhoEsq(no); // ele vai ser o filho a esquerda
+            cout << "inseriu filho a esquerda"<<endl;
+            cout << "filho com valor: " <<noPai->getFilhoEsq() <<endl;
         }
         else if(valor > noPai->getValor())//se o valor for maior que o no pai
         {
             this->aumentaNumComp();   
+            cout<<"inseriu filho a direita"<<endl;
             noPai->setFilhoDir(no); //ele aloca na direita
         }
     }
+    cout<<"entrou no checkbalance"<<endl;
     checkbalance(valor,this->noRaiz);// confere balanceamento e balanceia a arvore
     cout << "no inserido com sucesso e arvore jah balanceada" << endl;//printa o sucesso
 }
@@ -228,7 +257,12 @@ void ArvoreAVL::imprimeNo(int valor) // imprime o no buscado
        cout << "Noh:" << q->getValor() << "Altura: " << q->getAltura() << endl; // imprime o valor e a altura do no 
     }
 }
-void ArvoreAVL::impressaoTodosNos(Node* impressaoNo)//imprime todos os nos da arvore
+void ArvoreAVL::imprimeArvore()
+{
+    Node* p = noRaiz;
+    this->impressaoTodosNosAuxiliar(p);
+}
+void ArvoreAVL::impressaoTodosNosAuxiliar(Node* impressaoNo)//imprime todos os nos da arvore
 {
     if(noRaiz == nullptr)//se a arvore for null
     {
@@ -238,11 +272,14 @@ void ArvoreAVL::impressaoTodosNos(Node* impressaoNo)//imprime todos os nos da ar
     {
         if(impressaoNo == nullptr)
         {
-            
+            cout<<"no nulo"<<endl;
         }
-        cout<<"No: "<<impressaoNo->getValor()<<endl;
-        impressaoTodosNos(impressaoNo->getFilhoDir());
-        impressaoTodosNos(impressaoNo->getFilhoEsq());
-
+        else
+        {
+            cout<<"No: "<<impressaoNo->getValor()<<endl;
+            impressaoTodosNosAuxiliar(impressaoNo->getFilhoDir());
+            impressaoTodosNosAuxiliar(impressaoNo->getFilhoEsq());
+        }
+        return;
     }
 }

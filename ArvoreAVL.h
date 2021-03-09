@@ -29,7 +29,8 @@ public:
     void rotacaoDuplaEsq(Node* noDesbalanceado); //efetua a rotacao dupla a esquerda
     void rotacaoDuplaDir (Node* noDesbalanceado); // efetua a rotacao dupla a direita
     void imprimeNo(int valor);//imprime valor
-    void impressaoTodosNos (Node* impressaoNos);
+    void impressaoTodosNosAuxiliar (Node* impressaoNos);
+    void imprimeArvore();
 };
 
 #endif // ARVOREAVL_H_INCLUDED
