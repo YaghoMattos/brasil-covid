@@ -1,7 +1,5 @@
 #include "table.h"
 
-//#define M 5
-
 using namespace std;
 
 Table::Table(int N, int Mb, int O) {
@@ -25,31 +23,39 @@ Table::Table(int N, int Mb, int O) {
 }
 
 bool Table::verificaDivisao() {
-    //verifica se houve divis�o no n�vel g
+    //verifica se houve divisão no nível g
     if(g * N > Nb)
         return true;
     return false;
 }
 
 void Table::ultimoBaldeNivelG() {
-    //verifica se split aponta para o ultimo balde do n�vel g
+    //verifica se split aponta para o ultimo balde do nível g
     if( split == N - 1 || split == g * N - 1) {
-        g++;
         split = (N * g) + 1; //reinicia split para o primeiro do nivel g
     }
 }
 
 void Table::divideBalde() {
-    //pega o balde apontado por split e divide as chaves com hgmoreone
     criaBalde();
-    Hash haux(N);
+    g++;
+    Hash haux(Nb);
+    //pega o balde apontado por split e divide as chaves com hgmoreone
     for(int i = 0; i < Mb; i++) {
         int chaveTroca;
         int index;
+        //chaveTroca recebe chave na posição i do balde apontado por split
         chaveTroca = tabela.at(split)->getChave(i);
-        tabela.at(split)->removeChave(i);
+        cout << "chaveTroca = " << chaveTroca << endl;
         index = haux.hgMoreOne(chaveTroca, g);
+
+        cout << "index = " << index << endl;
+        //procura o primeiro balde com espaço vazio de indice >= index
+        while(!tabela.at(index)->temEspaco()) {
+            index++;
+        }
         tabela.at(index)->insereChave(chaveTroca);
+        tabela.at(split)->removeChave(i);
     }
     ultimoBaldeNivelG();
 }
@@ -57,17 +63,17 @@ void Table::divideBalde() {
 void Table::criaBalde() {
     Bucket* novoBalde = new Bucket(Mb);
     tabela.push_back(novoBalde);
+    Nb++;
 }
 
 double Table::fatorCarga() {
     cout << endl << "chaves=" << chaves << " numBalde=" << Nb << "  M="  << Mb << endl;
-    return (float)chaves / (Nb * Mb);
+    cout << "fc=" << (float)chaves/(Nb*Mb+O) << endl;
+    return (float)chaves / (Nb * Mb + O);
 }
 
 void Table::insercao(int k1) {
-    Hash funcHash(N);
-    /*long long h = 0;
-    long long int k = 20200327120005;*/
+    Hash funcHash(Nb);
 
     int h = 0;
     int k = k1;
@@ -79,24 +85,29 @@ void Table::insercao(int k1) {
     }
 
     if(tabela.at(h)->temEspaco()) {
-        cout << "tem espaco=" << tabela.at(h)->temEspaco() << endl;
-        //insere a chave na posi��o h
+        cout << "tem espaco" << endl;
+        //insere a chave na posição h
         tabela.at(h)->insereChave(k);
         chaves++;
     }
     else {
-        //verifica a ultima posi��o de overflow e se ela � nula tem espa�o
+        //verifica a ultima posição de overflow e se ela é nula tem espaço
         if(overflow[O-1] == -1) {
+            //encontra a posição para inserir no overflow
             for(int i=0; i < O; i++) {
                 if(overflow[i] == -1) {
                     overflow[i] = k;
+                    cout << "overflow [" << i << "] = " << overflow[i] << endl;
+                    chaves++;
+                    break;
                 }
             }
         }
+        else cout << "overflow sem espaço" << endl;
     }
 
-    cout << "fc=" << (float)chaves/(Nb*Mb+O) << endl;
-    if(fatorCarga() >= 0.8) {
+    if(fatorCarga() >= 0.79) {
+        cout << "erro aqui" << endl;
         divideBalde();
     }
     cout << "------------------fim------------------" << endl;
