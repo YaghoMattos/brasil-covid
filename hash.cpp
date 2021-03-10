@@ -9,10 +9,15 @@ Hash::Hash(int N){
 }
 
 int Hash::hg(int k, int nivel){
-    cout << "k " << k << " Baldes " << numBaldes << " pow " << (int)pow(2, nivel) << endl;
-    return k % (numBaldes * (int)pow(2, nivel));
+    long int result = 0;
+    cout << endl << "-----------------inicio----------------" << endl << "func hash k=" << k << " Balde=" << numBaldes << " nivel=" << nivel << " pow=" << (int)pow(2, nivel) << endl << endl;
+    result = k % (numBaldes * (int)pow(2, nivel));
+    return result;
 }
 
 int Hash::hgMoreOne(int k, int nivel){
-    return k % (numBaldes * (int)pow(2, (nivel + 1)));
+    long int result = 0;
+    cout << endl << "-----------------inicio----------------" << endl << "func hash k " << k << " Baldes=" << numBaldes << " nivel=" << nivel << " pow=" << (int)pow(2, nivel) << endl << endl;
+    result = k % (numBaldes * (int)pow(2, (nivel + 1)));
+    return result;
 }
