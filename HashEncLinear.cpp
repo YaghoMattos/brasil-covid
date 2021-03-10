@@ -98,7 +98,11 @@ bool HashEncLinear::buscar(CitiesCovid* item)
 HashItem HashEncLinear::criaItem(CitiesCovid* item)
 {
     HashItem h;
-    h.chave = item->codigo;
+
+    string aux = "";
+    aux += item->dia + item->mes + to_string(item->codigo);
+
+    h.chave =  stoi(aux);;
     h.data = item->dia + "-" + item->mes + "-" + item->ano;
     return h;
 }

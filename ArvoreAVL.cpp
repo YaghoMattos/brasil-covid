@@ -97,7 +97,7 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
     cout<< "entrou no checkbalance para verificar o valor: "<<valor<<" com no auxiliar: "<<auxiliar->getValor()<<" e com fb: "<<auxiliar->getFB()<<endl;
     if(valor < auxiliar->getValor()) //se o valor que foi passado é maior do que o valor do no
     {
-        cout<<"vai para a esquerda"<<endl;
+        //cout<<"vai para a esquerda"<<endl;
         this->aumentaNumComp();
         checkbalance(valor, auxiliar->getFilhoEsq());//o ponteiro anda para a esquerda
         auxiliar->atualizaAltura(); //primeiro atualiza a altura para nao dar erro no FB
@@ -159,12 +159,12 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
                 }
             }
         }
-        cout<<"verificou tudo"<<endl;
+        //cout<<"verificou tudo"<<endl;
     
     }
     else if(valor > auxiliar->getValor())//se o valor for maior do que o atual no ponteiro
     {
-        cout<<"vai para a direita"<<endl;
+        //cout<<"vai para a direita"<<endl;
         this->aumentaNumComp();
         checkbalance(valor, auxiliar->getFilhoDir());//o ponteiro anda para a direita
         auxiliar->atualizaAltura(); // atualiza altura antes de fb para nao ocorrer erros
@@ -240,11 +240,11 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
     }
     else if(valor == auxiliar->getValor())//se o valor for igual
     {
-        cout<<"valor eh igual"<<endl;
+        //cout<<"valor eh igual"<<endl;
         this->aumentaNumComp();
         auxiliar->atualizaAltura(); // atualiza altura antes de tudo para nao dar erro no fb
         auxiliar->atualizaFB();//atualiza o FB do atual e volta a recursividade anterior
-        cout<<"atualizou tudo e voltou"<<endl;
+        //cout<<"atualizou tudo e voltou"<<endl;
         return;
     }
 
@@ -254,7 +254,7 @@ void ArvoreAVL::insertNode(int valor)//insere um novo nó na arvore
 {
     if(estahNaArvore(valor,this->noRaiz))//se o no ja existe na arvore
     {
-        cout << "o no jah existe na arvore" << endl;//printa que o no ja existe
+        //cout << "o no jah existe na arvore" << endl;//printa que o no ja existe
         return;//sai da funçao
     }
     //se nao existe
@@ -262,8 +262,8 @@ void ArvoreAVL::insertNode(int valor)//insere um novo nó na arvore
     if(this->noRaiz == nullptr)//se a raiz for null
     {
         this->noRaiz = no;//aloca o novo no na raiz
-        cout << "anexou raiz com no" << endl;
-        cout << "raiz com valor: "<< noRaiz->getValor() << endl;
+        //cout << "anexou raiz com no" << endl;
+        //cout << "raiz com valor: "<< noRaiz->getValor() << endl;
         return;
     }
     else if(this->noRaiz != nullptr)//se a raiz nao for null
@@ -279,14 +279,14 @@ void ArvoreAVL::insertNode(int valor)//insere um novo nó na arvore
         else if(valor > noPai->getValor())//se o valor for maior que o no pai
         {
             this->aumentaNumComp();   
-            cout<<"inseriu filho a direita"<<endl;
+            //cout<<"inseriu filho a direita"<<endl;
             noPai->setFilhoDir(no); //ele aloca na direita
             no->setPai(noPai);
         }
     }
-    cout<<"entrou no checkbalance"<<endl;
+    //cout<<"entrou no checkbalance"<<endl;
     checkbalance(valor,this->noRaiz);// confere balanceamento e balanceia a arvore
-    cout << "no inserido com sucesso e arvore jah balanceada" << endl;//printa o sucesso
+    //cout << "no inserido com sucesso e arvore jah balanceada" << endl;//printa o sucesso
 }
 
 
@@ -364,17 +364,17 @@ void ArvoreAVL::impressaoTodosNosAuxiliar(Node* impressaoNo)//imprime todos os n
     if(noRaiz == nullptr)//se a arvore for null
     {
         cout<<"a arvore se encontra vazia"<<endl;//imprimi que ela e vazia
+        return;
     }
     else//se tiver ao menos 1 no
     {
         if(impressaoNo == nullptr)
         {
-            cout<<"no nulo"<<endl;
+            //cout<<"no nulo"<<endl;
         }
         else
         {
-            cout<<"No: "<<impressaoNo->getValor()<<endl;
-            cout<<"filho a direita: ";
+            cout<<"No: (" << impressaoNo->getValor() << ") ----- Altura: " << impressaoNo->getAltura()  <<endl;
             impressaoTodosNosAuxiliar(impressaoNo->getFilhoDir());
             cout <<"filho a esquerda: ";
             impressaoTodosNosAuxiliar(impressaoNo->getFilhoEsq());
