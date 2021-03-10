@@ -300,7 +300,6 @@ void ArvoreAVL::rotacaoSimplesEsq(Node* noDesbalanceado)
     auxiliar->setPai(noDesbalanceado->getPai());
     noDesbalanceado->setPai(auxiliar);
     
-    return;
 }
 
 void ArvoreAVL::rotacaoSimplesDir(Node* noDesbalanceado)
@@ -313,7 +312,6 @@ void ArvoreAVL::rotacaoSimplesDir(Node* noDesbalanceado)
     auxiliar->setPai(noDesbalanceado->getPai());
     noDesbalanceado->setPai(auxiliar);
 
-    return;
 }
 
 void ArvoreAVL::rotacaoDuplaEsq(Node* noDesbalanceado) // pode ser vista como uma funçao unica
@@ -332,14 +330,12 @@ void ArvoreAVL::rotacaoDuplaEsq(Node* noDesbalanceado) // pode ser vista como um
     noDesbalanceado->atualizaFB(); // atualiza fb do no desbalanceado
     q->atualizaFB();// atualiza fb do no q
     r->atualizaFB(); // atualiza fb do no r
-    return;
 }
 void ArvoreAVL::rotacaoDuplaDir(Node* noDesbalanceado) // ou uma junção de duas rotaçoes simples
 {  
     Node* q = noDesbalanceado->getFilhoEsq(); //no auxiliar q recebe o filho a direita do no desbalanceado
     rotacaoSimplesEsq(q);// rotaciona a esquerda
     rotacaoSimplesDir(noDesbalanceado); //depois a direita
-    return;
 }
 
 void ArvoreAVL::imprimeNo(int valor) // imprime o no buscado
@@ -379,6 +375,5 @@ void ArvoreAVL::impressaoTodosNosAuxiliar(Node* impressaoNo)//imprime todos os n
             cout <<"filho a esquerda: ";
             impressaoTodosNosAuxiliar(impressaoNo->getFilhoEsq());
         }
-        return;
     }
 }
