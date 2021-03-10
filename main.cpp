@@ -8,6 +8,11 @@
 #include "LeitorCoordinates.h"
 #include "LeitorCovid.h"
 
+/*bibliotecas hash linear Yagho*/
+#include "bucket.h"
+#include "table.h"
+#include "hash.h"
+
 using namespace std;
 string caminho_diretorio;
 
@@ -236,5 +241,33 @@ void arvoreAVL(){
         hash->imprimeArquivo();
     }
     delete leitorCovid;
-    delete hash; 
+    delete hash;
+
+
+    /*Teste hash lienar Yagho*/
+    cout << "--------------- Iniciando Hash Linear ----------------" << endl;
+
+    int N = 0, M = 0;
+
+    cout << "Digite o numero de chaves por balde" << endl;
+    cin >> M;
+    cout << "Digite o numero de baldes" << endl;
+    cin >> N;
+
+    Table t(N, M, 3);
+
+    /** teste */
+    t.insercao(3);
+    t.insercao(7);
+    t.insercao(9);
+    t.insercao(20);
+    t.insercao(19);
+    t.insercao(0);
+    t.insercao(1);
+    t.insercao(23);
+    t.insercao(4);
+    //60% carga
+    t.insercao(31);
+    t.insercao(28);
+    t.insercao(5);
 }
