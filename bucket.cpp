@@ -1,9 +1,10 @@
 #include "bucket.h"
+#include <iostream>
 
 using namespace std;
 
-Bucket::Bucket() {
-    M = 0;
+Bucket::Bucket(int M) {
+    this->M = M;
     balde = new int[M];
 
     for(int i = 0; i < M; i++) {
@@ -17,8 +18,10 @@ Bucket::~Bucket() {
 
 bool Bucket::temEspaco() {
     for(int i = 0; i < M; i++) {
-        if(balde[i] != -1)
+        if(balde[i] == -1) {
+            cout << "i=" << i << endl;
             return true;
+        }
     }
     return false;
 }
