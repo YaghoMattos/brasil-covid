@@ -11,6 +11,7 @@ Node::Node(int valor)
     this->filhoDir = this->filhoEsq = nullptr; //no construtor tanto o Filho a direita quanto o da esquerda recebem null
     this->H = 0;//seta altura inicial como 0;
     this->fb = 0;//seta FB inicial como 0;
+    this->Pai = nullptr;
 }
 
 Node::~Node()
@@ -18,6 +19,10 @@ Node::~Node()
 
 }
 // declaraçoes dos Getters
+Node* Node::getPai()
+{
+    return this->Pai;
+}
 int Node::getAltura()//pega a altura daquele nó
 {
     return this->H;//retorna altura do no na arvore

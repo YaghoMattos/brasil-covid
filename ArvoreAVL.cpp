@@ -108,19 +108,55 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
             cout<<"entrou no if para executar balanceamento"<<endl;
             if((auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == 1 || auxiliar->getFilhoDir()->getFB() == 0 ) ) //se o fb do no desbalanceado é 2 e o filho a dir é 1 
             {
+                Node* paiDoNo = auxiliar->getPai();
                 rotacaoSimplesEsq(auxiliar);//executa rotação simples a esquerda
+                if(auxiliar->getPai()->getValor() < paiDoNo->getValor())
+                {
+                    paiDoNo->setFilhoEsq(auxiliar->getPai());
+                }
+                else
+                {
+                    paiDoNo->setFilhoDir(auxiliar->getPai());
+                }
             }
             else if((auxiliar->getFB() == (-2)) && (auxiliar->getFilhoEsq()->getFB() == (-1) || auxiliar->getFilhoDir()->getFB() == 0 ))//se o fb do no desbalanceado é -2 e do filho a esquerda é -1
             {
+                Node* paiDoNo = auxiliar->getPai();
                 rotacaoSimplesDir(auxiliar);//executa rotaçao simples a direita
+                if(auxiliar->getPai()->getValor() < paiDoNo->getValor())
+                {
+                    paiDoNo->setFilhoEsq(auxiliar->getPai());
+                }
+                else
+                {
+                    paiDoNo->setFilhoDir(auxiliar->getPai());
+                }
             }
             else if( (auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == (-1) ) )
             {
+                Node* paiDoNo = auxiliar->getPai();
                 rotacaoDuplaEsq(auxiliar);//executa rotaçao dupla a esquerda
+                if(auxiliar->getPai()->getValor() < paiDoNo->getValor())
+                {
+                    paiDoNo->setFilhoEsq(auxiliar->getPai());
+                }
+                else
+                {
+                    paiDoNo->setFilhoDir(auxiliar->getPai());
+                }
             }
             else if( (auxiliar->getFB() == (-2) ) && (auxiliar->getFilhoDir()->getFB() == 1 ) )
             {
+                Node* paiDoNo = auxiliar->getPai();
                 rotacaoDuplaDir(auxiliar);//executa rotaçao dupla a direita
+                if(auxiliar->getPai()->getValor() < paiDoNo->getValor())
+                {
+                    paiDoNo->setFilhoEsq(auxiliar->getPai());
+                }
+                else
+                {
+                    paiDoNo->setFilhoDir(auxiliar->getPai());
+                }
             }
         }
         cout<<"verificou tudo"<<endl;
@@ -139,27 +175,63 @@ void ArvoreAVL::checkbalance (int valor, Node* auxiliar)// confere balanciamento
             cout<<"entrou no if para fazer a rotaçao"<<endl;
             if((auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == 1 || auxiliar->getFilhoDir()->getFB() == 0 ) ) //se o fb do no desbalanceado é 2 e o filho a dir é 1 
             {
+                Node* paiDoNo = auxiliar->getPai();
                 cout<<"rotaçao simples esquerda, filho a direita: "<<auxiliar->getFilhoDir()<<" filho a esquerda: "<<auxiliar->getFilhoEsq()<<endl;
                 rotacaoSimplesEsq(auxiliar);//executa rotação simples a esquerda
                 cout<<"rotaçao simples esquerda, filho a direita: "<<auxiliar->getFilhoDir()<<" filho a esquerda: "<<auxiliar->getFilhoEsq()<<endl;
+                if(auxiliar->getPai()->getValor() < paiDoNo->getValor())
+                {
+                    paiDoNo->setFilhoEsq(auxiliar->getPai());
+                }
+                else
+                {
+                    paiDoNo->setFilhoDir(auxiliar->getPai());
+                }
             }
             else if((auxiliar->getFB() == (-2)) && (auxiliar->getFilhoEsq()->getFB() == (-1) || auxiliar->getFilhoDir()->getFB() == 0 ))//se o fb do no desbalanceado é -2 e do filho a esquerda é -1
             {
+                Node* paiDoNo = auxiliar->getPai();
                 cout<<"rotaçao simples direita, filho a direita: "<<auxiliar->getFilhoDir()<<" filho a esquerda: "<<auxiliar->getFilhoEsq()<<endl;
                 rotacaoSimplesDir(auxiliar);//executa rotaçao simples a direita
                 cout<<"rotaçao simples direita, filho a direita: "<<auxiliar->getFilhoDir()<<" filho a esquerda: "<<auxiliar->getFilhoEsq()<<endl;
+                if(auxiliar->getPai()->getValor() < paiDoNo->getValor())
+                {
+                    paiDoNo->setFilhoEsq(auxiliar->getPai());
+                }
+                else
+                {
+                    paiDoNo->setFilhoDir(auxiliar->getPai());
+                }
             }
             else if( (auxiliar->getFB() == 2) && (auxiliar->getFilhoDir()->getFB() == (-1) ) )
             {
+                Node* paiDoNo = auxiliar->getPai();
                 cout<<"rotaçao dupla esquerda, filho a direita: "<<auxiliar->getFilhoDir()<<" filho a esquerda: "<<auxiliar->getFilhoEsq()<<endl;
                 rotacaoDuplaEsq(auxiliar);//executa rotaçao dupla a esquerda
                 cout<<"rotaçao dupla esquerda, filho a direita: "<<auxiliar->getFilhoDir()<<" filho a esquerda: "<<auxiliar->getFilhoEsq()<<endl;
+                if(auxiliar->getPai()->getValor() < paiDoNo->getValor())
+                {
+                    paiDoNo->setFilhoEsq(auxiliar->getPai());
+                }
+                else
+                {
+                    paiDoNo->setFilhoDir(auxiliar->getPai());
+                }
             }
             else if( (auxiliar->getFB() == (-2) ) && (auxiliar->getFilhoDir()->getFB() == 1 ) )
             {
+                Node* paiDoNo = auxiliar->getPai();
                 cout<<"rotaçao dupla dir, filho a direita: "<<auxiliar->getFilhoDir()<<" filho a esquerda: "<<auxiliar->getFilhoEsq()<<endl;
                 rotacaoDuplaDir(auxiliar);//executa rotaçao dupla a direita
                 cout<<"rotaçao dupla dir, filho a direita: "<<auxiliar->getFilhoDir()<<" filho a esquerda: "<<auxiliar->getFilhoEsq()<<endl;
+                if(auxiliar->getPai()->getValor() < paiDoNo->getValor())
+                {
+                    paiDoNo->setFilhoEsq(auxiliar->getPai());
+                }
+                else
+                {
+                    paiDoNo->setFilhoDir(auxiliar->getPai());
+                }
             }
 
         }
@@ -202,12 +274,14 @@ void ArvoreAVL::insertNode(int valor)//insere um novo nó na arvore
             this->aumentaNumComp();
             noPai->setFilhoEsq(no); // ele vai ser o filho a esquerda
             cout << "inseriu filho a esquerda"<<endl; 
+            no->setPai(noPai);
         }
         else if(valor > noPai->getValor())//se o valor for maior que o no pai
         {
             this->aumentaNumComp();   
             cout<<"inseriu filho a direita"<<endl;
             noPai->setFilhoDir(no); //ele aloca na direita
+            no->setPai(noPai);
         }
     }
     cout<<"entrou no checkbalance"<<endl;
@@ -223,6 +297,9 @@ void ArvoreAVL::rotacaoSimplesEsq(Node* noDesbalanceado)
     auxiliar->setFilhoEsq(noDesbalanceado);// o no Q passa a apontar para o no desbalanceado como filho a esquerda
     noDesbalanceado->atualizaFB();//atualiza o fb do no desbalanceado primeiro (já que é filho)
     auxiliar->atualizaFB();//atualiza Fb do no "Q" ja que é raiz
+    auxiliar->setPai(noDesbalanceado->getPai());
+    noDesbalanceado->setPai(auxiliar);
+    
     return;
 }
 
@@ -233,6 +310,9 @@ void ArvoreAVL::rotacaoSimplesDir(Node* noDesbalanceado)
     auxiliar->setFilhoDir(noDesbalanceado);//Q passa a apontar para o no desbalanceado como seu filho a direita
     noDesbalanceado->atualizaFB();//atualiza o fb do no desbalanceado primeiro (já que é filho)
     auxiliar->atualizaFB();//atualiza Fb do no "Q" ja que é raiz
+    auxiliar->setPai(noDesbalanceado->getPai());
+    noDesbalanceado->setPai(auxiliar);
+
     return;
 }
 
@@ -240,10 +320,15 @@ void ArvoreAVL::rotacaoDuplaEsq(Node* noDesbalanceado) // pode ser vista como um
 {
     Node* q = noDesbalanceado->getFilhoDir(); // no auxiliar q recebe o filho a direita do no desbalanceado
     Node* r = q->getFilhoEsq(); // no auxiliar r recebe o filho a esquerda do no auxiliar q
+    r->getFilhoEsq()->setPai(noDesbalanceado);//colocando o pai do filho a esquerda como o no desbalanceado
     noDesbalanceado->setFilhoDir(r->getFilhoEsq()); // filho a direita do no desbalanceado agora aponta para o filho a esquerda de r
+    r->getFilhoDir()->setPai(q);//apontando o pai do filho a direita de r para q
     q->setFilhoEsq(r->getFilhoDir()); // filho a direita de r agora é filho a esquerda de q
     r->setFilhoEsq(noDesbalanceado); //agora com R sem filhos aponta o filho a esquerda para o no desbalanceado 
     r->setFilhoDir(q); // e o da direita para o q
+    q->setPai(r);//coloca o pai de q como r
+    r->setPai(noDesbalanceado->getPai());//coloca o pai de r como no desbalanceado
+    noDesbalanceado->setPai(r);//set o pai do no desbalanceado como r
     noDesbalanceado->atualizaFB(); // atualiza fb do no desbalanceado
     q->atualizaFB();// atualiza fb do no q
     r->atualizaFB(); // atualiza fb do no r
@@ -251,7 +336,7 @@ void ArvoreAVL::rotacaoDuplaEsq(Node* noDesbalanceado) // pode ser vista como um
 }
 void ArvoreAVL::rotacaoDuplaDir(Node* noDesbalanceado) // ou uma junção de duas rotaçoes simples
 {  
-    Node* q = noDesbalanceado->getFilhoEsq(); // no auxiliar q recebe o filho a direita do no desbalanceado
+    Node* q = noDesbalanceado->getFilhoEsq(); //no auxiliar q recebe o filho a direita do no desbalanceado
     rotacaoSimplesEsq(q);// rotaciona a esquerda
     rotacaoSimplesDir(noDesbalanceado); //depois a direita
     return;

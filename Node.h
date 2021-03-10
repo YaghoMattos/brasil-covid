@@ -16,6 +16,7 @@ private:
     Node* filhoDir; // ponteiro para o proximo a direita
     Node* filhoEsq; //ponteiro para o proximo a esquerda
     int fb; //valor a ser verificado para balanceamento (fator de balanceamento)
+    Node* Pai;
 
 public:
     Node(int valor);//construtor passando valor como parametro
@@ -25,9 +26,11 @@ public:
     Node* getFilhoDir();//retorna o filho a direita
     Node* getFilhoEsq();//retorna filho a esquerda
     int getFB();//pega o valor do FB para balanceamento
+    Node* getPai();
     void setAltura(int altura);//coloca uma nova altura para o nó
     void setFilhoDir(Node* filhodir);//aponta para um novo nó filho a direita
     void setFilhoEsq(Node* filhoesq);//aponta para um novo nó filho a esquerda
+    void setPai(Node* pai);//aponta para o no pai
     void atualizaFB();//atualiza o valor de FB de acordo com os filhos
     void atualizaAltura(); // atualiza altura apos inserção de no
 };
