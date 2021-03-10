@@ -61,6 +61,10 @@ void Node::setFilhoEsq(Node* filhoesq)//seta um novo filho a esquerda
 {
     this->filhoEsq = filhoesq;//seta um novo filho a esquerda
 }
+void Node::setPai(Node* pai)
+{
+    this->Pai = pai;
+}
 //funçoes auxiliares
 void Node::atualizaFB()//atualiza o valor de balanceamento
 {
