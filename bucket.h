@@ -1,4 +1,5 @@
-/*armazenar e operar com as chaves*/
+#include <iostream>
+
 #ifndef Included_Bucket_H
 #define Included_Bucket_H
 
@@ -6,7 +7,7 @@ using namespace std;
 
 class Bucket {
     private:
-        //tamanho dos baldes, número de chaves de cada balde
+        //tamanho dos baldes, nï¿½mero de chaves de cada balde
         int M;
         //lista de chaves
         int *balde;

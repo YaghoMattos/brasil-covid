@@ -1,5 +1,4 @@
 #include "bucket.h"
-#include <iostream>
 
 using namespace std;
 
@@ -27,11 +26,12 @@ bool Bucket::temEspaco() {
 }
 
 void Bucket::insereChave(int chave) {
-    /*insere na primeira posi��o vazia do balde*/
+    /*insere na primeira posição vazia do balde*/
     for(int i = 0; i < M; i++) {
-        if(balde[i] != -1) {
+        if(balde[i] == -1) {
             balde[i] = chave;
-            M++;
+            cout << "balde na posição [" << i << "] = " << balde[i] << endl;
+            return;
         }
     }
 }
