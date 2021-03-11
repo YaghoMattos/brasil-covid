@@ -42,20 +42,40 @@ void Table::divideBalde() {
     Hash haux(Nb);
     //pega o balde apontado por split e divide as chaves com hgmoreone
     for(int i = 0; i < Mb; i++) {
-        int chaveTroca;
-        int index;
-        //chaveTroca recebe chave na posição i do balde apontado por split
-        chaveTroca = tabela.at(split)->getChave(i);
-        cout << "chaveTroca = " << chaveTroca << endl;
-        index = haux.hgMoreOne(chaveTroca, g);
+        //verifica se está acessando posição valida
+        if(tabela.at(split)->getChave(i) != -1) {
+            int chaveTroca;
+            int index;
+            //chaveTroca recebe chave na posição i do balde apontado por split
+            chaveTroca = tabela.at(split)->getChave(i);
+            cout << endl << "**********inicia distribuicao de chave**********" << endl;
+            cout << "chaveTroca = " << chaveTroca << endl;
+            index = haux.hgMoreOne(chaveTroca, g);
+            cout << "index inicial = " << index << endl;
 
-        cout << "index = " << index << endl;
-        //procura o primeiro balde com espaço vazio de indice >= index
-        while(!tabela.at(index)->temEspaco()) {
-            index++;
+            //exceção, se o hg+1 der um index maior que a posição do ultimo balde, insere no ultimo balde
+            if(index > Nb-1) {
+                index = Nb-1;
+                tabela.at(index)->insereChave(chaveTroca);
+                tabela.at(split)->removeChave(i);
+                cout << "**********chave distribuida if**********" << endl << endl;
+            }
+            //hg+1 deu certo e segue o fluxo normal de execução
+            else {
+                //verifica se a chave precisa mesmo mudar de balde, caso index == split, não faz nada
+                if(index != split) {
+                   //procura o primeiro balde com espaço vazio de indice >= index
+                    while(!tabela.at(index)->temEspaco()) {
+                        index++;
+                    }
+                    cout << "index final = " << index << endl;
+                    tabela.at(index)->insereChave(chaveTroca);
+                    tabela.at(split)->removeChave(i);
+                    cout << "**********chave distribuida**********" << endl << endl;
+                }
+            }
         }
-        tabela.at(index)->insereChave(chaveTroca);
-        tabela.at(split)->removeChave(i);
+
     }
     ultimoBaldeNivelG();
 }
@@ -80,11 +100,17 @@ void Table::insercao(int k1) {
 
     h = funcHash.hg(k, getNivel());
     cout << "h=" << h << " nivel=" << getNivel() << endl;
-    if(h < getSplit()) {
+    if(h < split) {
         h = funcHash.hgMoreOne(k, getNivel());
     }
-
-    if(tabela.at(h)->temEspaco()) {
+    //exceção, se h maior que a posição do ultimo balde, insere no ultimo balde
+    if(h > Nb-1) {
+        cout << "h > que o indece do ultimo balde" << endl;
+        //insere a chave no ultimo balde
+        tabela.at(Nb-1)->insereChave(k);
+        chaves++;
+    }
+    else if(tabela.at(h)->temEspaco()) {
         cout << "tem espaco" << endl;
         //insere a chave na posição h
         tabela.at(h)->insereChave(k);
@@ -106,8 +132,8 @@ void Table::insercao(int k1) {
         else cout << "overflow sem espaço" << endl;
     }
 
-    if(fatorCarga() >= 0.79) {
-        cout << "erro aqui" << endl;
+    if(fatorCarga() >= 0.8) {
+        cout << "erro" << endl;
         divideBalde();
     }
     cout << "------------------fim------------------" << endl;
