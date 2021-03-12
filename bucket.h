@@ -11,8 +11,10 @@ class Bucket {
         int M;
         //lista de chaves
         int *balde;
+
     public:
-        Bucket(int M);
+        int *overflow;
+        Bucket(int M, int O);
         ~Bucket();
         bool temEspaco();
         void insereChave(int chave);

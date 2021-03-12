@@ -2,12 +2,18 @@
 
 using namespace std;
 
-Bucket::Bucket(int M) {
+Bucket::Bucket(int M, int O) {
     this->M = M;
     balde = new int[M];
 
     for(int i = 0; i < M; i++) {
         balde[i] = -1;
+    }
+
+    overflow = new int[O];
+
+    for(int i=0; i < O; i++) {
+        overflow[i] = -1;
     }
 }
 
@@ -18,7 +24,7 @@ Bucket::~Bucket() {
 bool Bucket::temEspaco() {
     for(int i = 0; i < M; i++) {
         if(balde[i] == -1) {
-            cout << "i=" << i << endl;
+            cout << "tem espaço balde na pos i = " << i << endl;
             return true;
         }
     }
@@ -30,7 +36,7 @@ void Bucket::insereChave(int chave) {
     for(int i = 0; i < M; i++) {
         if(balde[i] == -1) {
             balde[i] = chave;
-            cout << "balde na posição [" << i << "] = " << balde[i] << endl;
+            cout << "insere chave na posição [" << i << "] = " << balde[i] << endl;
             return;
         }
     }
