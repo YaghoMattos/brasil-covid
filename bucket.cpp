@@ -24,7 +24,6 @@ Bucket::~Bucket() {
 bool Bucket::temEspaco() {
     for(int i = 0; i < M; i++) {
         if(balde[i] == -1) {
-            cout << "tem espaço balde na pos i = " << i << endl;
             return true;
         }
     }
@@ -36,7 +35,7 @@ void Bucket::insereChave(int chave) {
     for(int i = 0; i < M; i++) {
         if(balde[i] == -1) {
             balde[i] = chave;
-            cout << "insere chave na posição [" << i << "] = " << balde[i] << endl;
+            cout << "balde -> insere chave na posicao [" << i << "] = " << balde[i] << endl;
             return;
         }
     }

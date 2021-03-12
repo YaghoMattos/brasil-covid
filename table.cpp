@@ -17,6 +17,12 @@ Table::Table(int N, int Mb, int O) {
     Nb = N;
 }
 
+void Table::criaBalde() {
+    Bucket* novoBalde = new Bucket(Mb, O);
+    tabela.push_back(novoBalde);
+    Nb++;
+}
+
 bool Table::verificaDivisao() {
     //verifica se houve divisão no nível g
     if(g * N > Nb)
@@ -24,12 +30,18 @@ bool Table::verificaDivisao() {
     return false;
 }
 
+double Table::fatorCarga(int of) {
+    cout << endl << "conferindo valores do fator de carga -> chaves = " << chaves << ", Nb = " << Nb << ",  Mb = "  << Mb << ", O = " << of << endl;
+    cout << "fc = " << (float)chaves/(Nb*Mb+of) << endl;
+    return (float)chaves / (Nb * Mb + of);
+}
+
 void Table::ultimoBaldeNivelG() {
     //verifica se split aponta para o ultimo balde do nível g
     if( split == N - 1 || split == g * N - 1) {
         split = 0; //reinicia split para o primeiro balde
         g++;
-        cout << "reseta split, g = " << g << endl;
+        cout << "ultimo balde no nivel g (split = 0 e g++), g = " << g << endl;
     }
 }
 
@@ -40,34 +52,34 @@ void Table::divideBalde() {
     for(int i = 0; i < Mb; i++) {
         //verifica se está acessando posição valida
         if(tabela.at(split)->getChave(i) != -1) {
+            cout << endl << "**********inicia distribuicao de chave**********" << endl;
             int chaveTroca;
             int index;
             //chaveTroca recebe chave na posição i do balde apontado por split
             chaveTroca = tabela.at(split)->getChave(i);
-            cout << endl << "**********inicia distribuicao de chave**********" << endl;
-            cout << "chaveTroca = " << chaveTroca << endl;
+            cout << "chave que sera trocada de balde = " << chaveTroca << endl;
             index = haux.hgMoreOne(chaveTroca, g);
-            cout << "index inicial = " << index << endl;
+            cout << "index gerado por h(g+1) = " << index << endl;
 
             //exceção, se o hg+1 der um index maior que a posição do ultimo balde, insere no ultimo balde
             if(index > Nb-1) {
                 index = Nb-1;
                 tabela.at(index)->insereChave(chaveTroca);
                 tabela.at(split)->removeChave(i);
-                cout << "**********chave distribuida if**********" << endl << endl;
+                cout << "**********chave distribuida no ultimo balde**********" << endl << endl;
             }
             //hg+1 deu certo e segue o fluxo normal de execução
             else {
                 //verifica se a chave precisa mesmo mudar de balde
                 //if(index != split) {
-                   //procura o primeiro balde com espaço vazio de indice >= index
-                    while(!tabela.at(index)->temEspaco()) {
-                        index++;
-                    }
-                    cout << "index final = " << index << endl;
-                    tabela.at(index)->insereChave(chaveTroca);
-                    tabela.at(split)->removeChave(i);
-                    cout << "**********chave distribuida**********" << endl << endl;
+                //procura o primeiro balde com espaço vazio de indice >= index
+                while(!tabela.at(index)->temEspaco()) {
+                    index++;
+                }
+                cout << "index final = " << index << endl;
+                tabela.at(index)->insereChave(chaveTroca);
+                tabela.at(split)->removeChave(i);
+                cout << "**********chave distribuida**********" << endl << endl;
                 //}
             }
         }
@@ -77,27 +89,14 @@ void Table::divideBalde() {
     ultimoBaldeNivelG();
 }
 
-void Table::criaBalde() {
-    Bucket* novoBalde = new Bucket(Mb, O);
-    tabela.push_back(novoBalde);
-    Nb++;
-}
-
-double Table::fatorCarga(int of) {
-    cout << endl << "chaves=" << chaves << " numBalde=" << Nb << "  M="  << Mb << endl;
-    cout << "fc=" << (float)chaves/(Nb*Mb+of) << endl;
-    return (float)chaves / (Nb * Mb + of);
-}
-
 void Table::insercao(int k1) {
     Hash funcHash(Nb);
+    int h = 0, k = k1, of = 0;
 
-    int h = 0;
-    int k = k1;
-    int of = 0;
+    cout << endl << "-------------iniciando insercao------------" << endl;
 
     h = funcHash.hg(k, getNivel());
-    cout << "h =" << h << " nivel =" << getNivel() << endl;
+    cout << "k = " << k << "h = " << h << " nivel = " << getNivel() << endl;
     if(h < split) {
         h = funcHash.hgMoreOne(k, getNivel());
     }
@@ -109,7 +108,7 @@ void Table::insercao(int k1) {
         chaves++;
     }
     else if(tabela.at(h)->temEspaco()) {
-        cout << "tem espaco" << endl;
+        cout << "balde na posicao h tem espaco" << endl;
         //insere a chave na posição h
         tabela.at(h)->insereChave(k);
         chaves++;
@@ -121,7 +120,7 @@ void Table::insercao(int k1) {
             for(int i=0; i < O; i++) {
                 if(tabela.at(h)->overflow[i] == -1) {
                     tabela.at(h)->overflow[i] = k;
-                    cout << "overflow [" << i << "] = " << tabela.at(h)->overflow[i] << endl;
+                    cout << "inserindo no overflow [" << i << "] = " << tabela.at(h)->overflow[i] << endl;
                     chaves++;
                     of ++;
                     break;
@@ -132,7 +131,7 @@ void Table::insercao(int k1) {
     }
     float fc = fatorCarga(of);
     if(fc >= (float)0.8) {
-        cout << "fc > 8 divideBalde" << endl;
+        cout << "fc > 8 entao divideBalde" << endl;
         divideBalde();
     }
     cout << "------------------fim------------------" << endl;
