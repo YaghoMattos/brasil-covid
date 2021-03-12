@@ -22,17 +22,16 @@ class Table {
         int chaves;
         //ponteiro para indicar o balde
         int split;
-        int *overflow;
 
     public:
-        Table(int N, int M, int O);
         //lista de baldes
         vector<Bucket*> tabela;
+        Table(int N, int M, int O);
         bool verificaDivisao();
         void ultimoBaldeNivelG();
         void divideBalde();
         void criaBalde();
-        double fatorCarga();
+        double fatorCarga(int of);
         int getNivel();
         void setNivel(int nivel);
         int getNumBaldes();
