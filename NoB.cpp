@@ -4,7 +4,7 @@ NoB::NoB(int t1, bool folha1) // construtor do Nó que recebe a ordem e se é fo
 {
     t = t1;
     folha = folha1;
-
+    data = new string[2 * t - 1];
     chave = new int[2 * t - 1];
     C = new NoB *[2 * t];
     n = 0;
@@ -35,7 +35,7 @@ int NoB::achachave(int k)
 }
 // Insere num vetor que tem espaço sobrando, onde ele simplismente precisa achar a posição necessaria e inserir
 
-void NoB::inserenaocheio(int k)
+void NoB::inserenaocheio(int k,string d)
 {
     int i = n - 1;
 
@@ -46,12 +46,12 @@ void NoB::inserenaocheio(int k)
         {
 
             chave[i + 1] = chave[i];
-
+            data[i + 1] = data[i];
             i--;
         }
 
         chave[i + 1] = k;
-
+        data[ i + 1] = d;
         n = n + 1;
     }
     else
@@ -72,7 +72,7 @@ void NoB::inserenaocheio(int k)
                 i++;
             }
         }
-        C[i + 1]->inserenaocheio(k);
+        C[i + 1]->inserenaocheio(k,d);
     }
 }
 
@@ -86,12 +86,14 @@ void NoB::dividefilho(int i, NoB *y)
     for (int j = 0; j < t - 1; j++)
     {
         z->chave[j] = y->chave[j + t];
+        z->data[j] = y->data[j+t];
     }
 
     if (y->folha == false)
     {
-        for (int j = 0; j < t; j++)
+        for (int j = 0; j < t; j++){
             z->C[j] = y->C[j + t];
+        }
     }
 
     y->n = t - 1;
@@ -108,9 +110,11 @@ void NoB::dividefilho(int i, NoB *y)
     {
 
         chave[j + 1] = chave[j];
+        data[j+1] = data[j];
     }
 
     chave[i] = y->chave[t - 1];
+    data[i] = data[t - 1];
 
     n = n + 1;
 }

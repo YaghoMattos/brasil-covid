@@ -25,8 +25,8 @@ public:
     QuadTree();
     QuadTree(NoQuadTree *_raiz);
     ~QuadTree();
-    
-    vector<CitiesCoordinates *> data;
+
+    vector<CitiesCoordinates *> *data;
 
     void inserir(CitiesCoordinates *info);
     void searchInterval(float x1, float y1, float x2, float y2);

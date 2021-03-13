@@ -20,7 +20,7 @@ public:
 
     NoB *procura(int k);
 
-    void insert(int k);
+    void insert(int k,string d);
     void remove(int k);
     void imprimir();
     void imprimirArquivo();

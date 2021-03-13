@@ -20,7 +20,7 @@ NoB *ArvoreB::procura(int k)
 }
 // Função que insere na arvore usando os metodos "inserenaocheio" e "dividefilho", implementadas no Nó
 
-void ArvoreB::insert(int k)
+void ArvoreB::insert(int k,string d)
 {
 
     if (raiz == NULL)
@@ -28,6 +28,7 @@ void ArvoreB::insert(int k)
 
         raiz = new NoB(t, true);
         raiz->chave[0] = k;
+        raiz->data[0] = d;
         raiz->n = 1;
     }
     else
@@ -46,13 +47,13 @@ void ArvoreB::insert(int k)
 
                 i++;
             }
-            s->C[i]->inserenaocheio(k);
+            s->C[i]->inserenaocheio(k,d);
 
             raiz = s;
         }
         else
         {
-            raiz->inserenaocheio(k);
+            raiz->inserenaocheio(k,d);
         }
     }
 }

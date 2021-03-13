@@ -15,7 +15,7 @@ class HashEncLinear{
         ~HashEncLinear();
 
         void inserir(CitiesCovid* item);
-        bool buscar(CitiesCovid* item);
+        CitiesCovid* buscar(int code,string data);
 
         int getNumColisoes();
         int getTamanho();

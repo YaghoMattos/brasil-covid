@@ -114,7 +114,7 @@ void QuadTree::searchIntervalAux(NoQuadTree *p, float x1, float y1, float x2, fl
     {
         if ((p->getX() >= x1) && (p->getX() <= x2) && (p->getY() >= y1) && (p->getY() <= y2))
         {
-            data.push_back(p->getInfo());
+            (*data).push_back(p->getInfo());
         }
         searchIntervalAux(p->getNordeste(), x1, y2, x2, y2);
         searchIntervalAux(p->getNoroeste(), x1, y2, x2, y2);

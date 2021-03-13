@@ -52,25 +52,24 @@ void HashEncLinear::inserir(CitiesCovid *item)
     }
 }
 
-bool HashEncLinear::buscar(CitiesCovid *item)
+CitiesCovid* HashEncLinear::buscar(int code,string data)
 {
-    string data = "";
-    data += item->dia + item->mes + item->ano;
+    CitiesCovid *item = nullptr;
 
-    int hash = divisao(item->codigo, data);
+    int hash = divisao(code, data);
 
-    if (HashMap[hash].chave == item->codigo && HashMap[hash].data.compare(item->dia + "-" + item->mes + "-" + item->ano))
+    if (HashMap[hash].chave == code)
     {
-        return true;
+        return item;
     }
 
     int j = 1;
     int hash_search = hash + 1;
     while (j < this->tamanho)
     {
-        if (HashMap[hash_search].chave == item->codigo && HashMap[hash].data.compare(item->dia + "-" + item->mes + "-" + item->ano))
+        if (HashMap[hash_search].chave == code)
         {
-            return true;
+            return item;
         }
         j++;
         hash_search++;
@@ -80,7 +79,7 @@ bool HashEncLinear::buscar(CitiesCovid *item)
         }
     }
 
-    return false;
+    return item;
 }
 
 HashItem HashEncLinear::criaItem(CitiesCovid *item)

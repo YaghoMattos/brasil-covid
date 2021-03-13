@@ -4,6 +4,7 @@
 
 /*Bibliotecas criadas*/
 #include "QuadTree.h"
+#include "NoB.h"
 #include "CitiesCoordinates.h"
 #include "CitiesCovid.h"
 #include "ArvoreAVL.h"
@@ -300,7 +301,8 @@ void arvoreB()
     for (int i = 0; i < n; i++)
     {
         int a = hash->getHashMap(i).chave;
-        arvore->insert(a);
+        string d = hash->getHashMap(i).data;
+        arvore->insert(a,d);
     }
     delete hash;
     if (n <= 20)
@@ -317,14 +319,14 @@ void arvoreB()
 
 void trabalho()
 {
-    int M[5] = {5000, 10000, 50000, 100000, 500000};
+    int M[5] = {1000, 5000, 10000, 50000, 100000};
 
     for (int i = 0; i < 5; i++)
     {
         Log::getInstance().iniciaArquivoSaida("Saidas_" + to_string(i) + ".txt");
 
         /*Leitura do Hash*/
-        /*LeitorCovid *leitorC = new LeitorCovid(caminho_diretorio, M[i]);
+        LeitorCovid *leitorC = new LeitorCovid(caminho_diretorio, M[i]);
         vector<CitiesCovid *> data = leitorC->getData();
         HashEncLinear *hash = new HashEncLinear(M[i]);
 
@@ -335,7 +337,11 @@ void trabalho()
             hash->inserir(data[j]);
         }
 
-        data.clear();*/
+        data.clear();
+        ArvoreB* arvore = new ArvoreB(200);
+
+        for(int j = 0; j < M[i];j++)
+            arvore->insert(hash->getHashMap(j).chave,hash->getHashMap(j).data);
 
         cout << "S2-" << i << " ) " << endl;
 
@@ -367,13 +373,19 @@ void trabalho()
         line += "Intervalo: ";
         Log::getInstance().lineArquivo(line);
 
-        while (!quad->data.empty())
+        while (!quad->data->empty())
         {
-            cout << "Entra no data" << endl;
-            cout << "Imprimindo Intervalo de Cidades" << quad->data.back()->nome_cidade << endl;
-            quad->data.pop_back();
-        }
+            //cout << "Dentro do while" << endl;
+            int k = quad->data->back()->codigo_cidade;
+            cout << "K: " << k << endl;
+            NoB* a =  arvore->procura(k);
+            int code = a->achachave(k);
 
+            numCasos += hash->buscar(a->getChave(code),a->getData(code))->casos;
+            quad->data->pop_back();
+        }
+        cout << "NUMERO DE CASOS: " << numCasos << endl;
+ 
         Log::getInstance().fechaArqSaida();
     }
 }
