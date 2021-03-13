@@ -3,10 +3,11 @@ ArvoreAVL::ArvoreAVL() { this->raiz = nullptr; }
 
 ArvoreAVL::~ArvoreAVL() { this->clear(); }
 
-void ArvoreAVL::inserir(int valor) {
+void ArvoreAVL::inserir(int valor)
+{
     bool hAlterada = false;
-    //cout << "Inserindo na arvore" << endl;
-    this->inserirAux(this->raiz,valor,hAlterada);
+
+    this->inserirAux(this->raiz, valor, hAlterada,nullptr);
 }
 
 bool ArvoreAVL::search(int valor)
@@ -38,27 +39,35 @@ void ArvoreAVL::clear()
     this->raiz = nullptr;
 }
 
-void ArvoreAVL::imprimir() {
-    cout << endl << "Impressao Arvore AVL" << endl;
+void ArvoreAVL::imprimir()
+{
+    cout << endl
+         << "Impressao Arvore AVL" << endl;
 
-    NoAVL* p = this->raiz;
-    imprimirAux(p,0);
+    NoAVL *p = this->raiz;
+    while (p != nullptr)
+    {
+        cout << "Valor de p " << p->getValor() << endl;
+        p = p->pai;
+    }
+    cout << "P nulo\n";
+    //imprimirAux(p, 0);
 }
 
-void ArvoreAVL::imprimirAux(NoAVL * p,int nivel){
-    
-    if(p == nullptr)
+void ArvoreAVL::imprimirAux(NoAVL *p, int nivel)
+{
+    cout << "Valor: " << p->getValor() << " Nivel: " << nivel << endl;
+    if (p->getSubArvores(0) != nullptr)
     {
-        cout << "Arvore Vazia" << endl;
-    } else {
-        cout << "Valor: " << p->getValor() << " Nivel: " << nivel << endl;
-
-        imprimirAux(p->getSubArvores(0),nivel+1);
-        imprimirAux(p->getSubArvores(1),nivel+1);
+        imprimirAux(p->getSubArvores(0), nivel + 1);
+    }
+    if (p->getSubArvores(1) != nullptr)
+    {
+        imprimirAux(p->getSubArvores(1), nivel + 1);
     }
 }
 
-void ArvoreAVL::rotacaoDupla(NoAVL *p, int dir)
+void ArvoreAVL::rotacaoDupla(NoAVL *&p, int dir)
 {
     int oposto = this->oposto(dir);
     NoAVL *filho = p->getSubArvores(dir)->getSubArvores(oposto);
@@ -71,7 +80,7 @@ void ArvoreAVL::rotacaoDupla(NoAVL *p, int dir)
     p = filho;
 }
 
-void ArvoreAVL::rotacaoSimples(NoAVL *p, int dir)
+void ArvoreAVL::rotacaoSimples(NoAVL *&p, int dir)
 {
     int oposto = this->oposto(dir);
     NoAVL *filho = p->getSubArvores(dir);
@@ -97,7 +106,7 @@ void ArvoreAVL::aumentaBalanceamento(NoAVL *p, int dir)
     p->getSubArvores(dir)->getSubArvores(oposto)->setBalanco(2);
 }
 
-void ArvoreAVL::rebalanceamentoInserir(NoAVL *p, int dir, bool hAlterada)
+void ArvoreAVL::rebalanceamentoInserir(NoAVL *&p, int dir, bool hAlterada)
 {
     int oposto = this->oposto(dir);
 
@@ -128,22 +137,30 @@ void ArvoreAVL::rebalanceamentoInserir(NoAVL *p, int dir, bool hAlterada)
     }
 }
 
-void ArvoreAVL::inserirAux(NoAVL *p,int valor, bool hAlterada) {
-    if(p == nullptr)
+void ArvoreAVL::inserirAux(NoAVL *&p, int valor, bool hAlterada, NoAVL *pai)
+{
+    if (p == nullptr)
     {
-        //cout << "Inserindo na raiz" << endl;
         p = new NoAVL(valor);
+        p->pai = pai;
         hAlterada = true;
-    } else if(p->getValor() == valor)
+        return;
+    }
+    else if (p->getValor() == valor)
     {
         return;
-    } else {
-        int dir = (valor > p->getValor()) ? 1:0;
+    }
+    else
+    {
+        //cout << "Terceiro Else" << endl;
+        int dir = (valor > p->getValor()) ? 1 : 0;
+        //cout << "DIR: " << dir << endl;
         hAlterada = false;
-        inserirAux(p->getSubArvores(dir),valor,hAlterada);
-        if(hAlterada)
+        NoAVL *&a = p = p->getSubArvores(dir);
+        inserirAux(a, valor, hAlterada, p);
+        if (hAlterada)
         {
-            this->rebalanceamentoInserir(p,dir,hAlterada);
+            this->rebalanceamentoInserir(p, dir, hAlterada);
         }
     }
 }

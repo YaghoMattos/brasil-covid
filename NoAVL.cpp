@@ -4,7 +4,7 @@ NoAVL::NoAVL(int valor)
 {
     this->valor = valor;
     this->balanco = 0;
-
+    this->pai = nullptr;
     this->subArvoreEsquerda = nullptr;
     this->subArvoreDireita = nullptr;
 }
@@ -30,14 +30,14 @@ NoAVL *NoAVL::getSubArvores(int n)
 
     if (n == 0)
     {
-        aux = this->subArvoreEsquerda;
+        return this->subArvoreEsquerda;
     }
     else if (n == 1)
     {
-        aux = this->subArvoreDireita;
+        return this->subArvoreDireita;
     }
 
-    return aux;
+    return nullptr;
 }
 
 void NoAVL::setSubArvores(int n, NoAVL *p)

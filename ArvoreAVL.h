@@ -13,13 +13,13 @@ class ArvoreAVL{
     private:
         NoAVL* raiz;
 
-        void rotacaoDupla(NoAVL* p, int dir);
-        void rotacaoSimples(NoAVL* p, int dir);
+        void rotacaoDupla(NoAVL*& p, int dir);
+        void rotacaoSimples(NoAVL*& p, int dir);
 
         void aumentaBalanceamento(NoAVL* p, int dir);
-        void rebalanceamentoInserir(NoAVL* p, int dir, bool hAlterada);
+        void rebalanceamentoInserir(NoAVL*& p, int dir, bool hAlterada);
 
-        void inserirAux(NoAVL * p,int valor,bool hAlterada);
+        void inserirAux(NoAVL *& p,int valor,bool hAlterada,NoAVL* pai);
 
         int oposto(int dir);
         void imprimirAux(NoAVL * p,int nivel);

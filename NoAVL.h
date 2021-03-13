@@ -11,22 +11,20 @@ public:
     NoAVL(int valor);
     ~NoAVL();
 
-    void setSubArvores(int n,NoAVL* p);
+    void setSubArvores(int n, NoAVL *p);
     void setBalanco(int n);
-
+    NoAVL *pai;
     int getBalanco();
     int getValor();
-    NoAVL* getSubArvores(int n); // 0  - ESQ
-                                  // 1  - DIR
-                                  // 2 - Igual
+    NoAVL *getSubArvores(int n); // 0  - ESQ
+                                 // 1  - DIR
+                                 // 2 - Igual
 private:
     int balanco;
 
     int valor;
-    NoAVL* subArvoreEsquerda;
-    NoAVL* subArvoreDireita;
-
-
+    NoAVL *subArvoreEsquerda;
+    NoAVL *subArvoreDireita;
 };
 
 #endif // NOAVL_H_INCLUDED
