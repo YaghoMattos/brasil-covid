@@ -3,8 +3,8 @@
 NoAVL::NoAVL(int valor)
 {
     this->valor = valor;
-    this->balanco = 0;
-    this->pai = nullptr;
+    this->balanceamento = 0;
+    this->altura = 0;
     this->subArvoreEsquerda = nullptr;
     this->subArvoreDireita = nullptr;
 }
@@ -15,12 +15,17 @@ NoAVL::~NoAVL()
     delete this->subArvoreEsquerda;
 }
 
-void NoAVL::setBalanco(int n)
+void NoAVL::setBalanceamento(int n)
 {
-    this->balanco = n;
+    this->balanceamento = n;
 }
 
-int NoAVL::getBalanco() { return this->balanco; }
+int NoAVL::getAltura()
+{
+    return this->altura;
+}
+
+int NoAVL::getBalanceamento() { return this->balanceamento; }
 
 int NoAVL::getValor() { return this->valor; }
 
@@ -51,4 +56,8 @@ void NoAVL::setSubArvores(int n, NoAVL *p)
     {
         this->subArvoreDireita = p;
     }
+}
+
+void NoAVL::atualizaAltura(int k){
+    this->altura = k;
 }

@@ -1,171 +1,215 @@
 #include "ArvoreAVL.h"
-ArvoreAVL::ArvoreAVL() { this->raiz = nullptr; }
 
-ArvoreAVL::~ArvoreAVL() { this->clear(); }
-
-void ArvoreAVL::inserir(int valor)
+ArvoreAVL::ArvoreAVL()
 {
-    bool hAlterada = false;
-
-    this->inserirAux(this->raiz, valor, hAlterada,nullptr);
+    this->raiz = nullptr;
+    this->resetaComparacoes();
 }
 
-bool ArvoreAVL::search(int valor)
+ArvoreAVL::~ArvoreAVL()
 {
-    NoAVL *p = this->raiz;
+    delete raiz;
+}
 
-    while (p != nullptr)
+int ArvoreAVL::getAltura(NoAVL *p)
+{
+    if (p == nullptr)
     {
-        if (valor > p->getValor())
+        return -1;
+    }
+
+    return p->getAltura();
+}
+
+int ArvoreAVL::getBalanceamento(NoAVL *p)
+{   
+    cout << "GET BALANCEAMENTO" << endl;
+    if (p != nullptr)
+    {
+        cout << "p!=null\n";
+        return p->getSubArvores(1)->getAltura() - p->getSubArvores(0)->getAltura();
+    }
+    return 0;
+}
+
+void ArvoreAVL::insert(int valor)
+{
+    //cout << "Inserindo: " << valor << endl;
+    this->raiz = insertAux(this->raiz, valor);
+}
+
+NoAVL *ArvoreAVL::insertAux(NoAVL *p, int valor)
+{
+    //cout << "Inserir Auxiliar" << endl;
+    if (p == nullptr)
+    {
+        p = new NoAVL(valor);
+        return p;
+    }
+    else
+    {
+        cout << "No p nao nulo" << endl;
+        if (valor < p->getValor())
         {
-            p = p->getSubArvores(1);
+            this->aumentaNumComp();
+            cout << "1" << endl;
+            p->setSubArvores(0, this->insertAux(p->getSubArvores(0), valor));
         }
-        else if (valor < p->getValor())
+        else
         {
-            p = p->getSubArvores(0);
-        }
-        else if (valor == p->getValor())
-        {
-            return true;
+            cout << "2" << endl;
+            p->setSubArvores(1, this->insertAux(p->getSubArvores(1), valor));
         }
     }
 
-    return false;
-}
+    if (p->getSubArvores(0)->getAltura() > p->getSubArvores(1)->getAltura())
+    {
+        cout << "Atualizando Altura" << endl;
+        p->atualizaAltura(p->getSubArvores(0)->getAltura() + 1);
+    }else
+    {
+        cout << "Atualizando Altura" << endl;
+        p->atualizaAltura(p->getSubArvores(1)->getAltura() + 1);
+    }
 
-void ArvoreAVL::clear()
-{
-    delete raiz;
-    this->raiz = nullptr;
+    int fatorB = getBalanceamento(p);
+
+    if (fatorB == 2)
+    {
+        NoAVL *no = p->getSubArvores(1);
+        int fatorB_aux = getBalanceamento(no);
+        if (fatorB_aux == 1 || fatorB_aux == 0)
+            return rotSimplesEsq(p);
+
+        if (fatorB_aux == -1)
+            return rotDuplaEsq(p);
+    }
+
+    if (fatorB == -2)
+    {
+        NoAVL *no = p->getSubArvores(0);
+        int fatorB_aux = getBalanceamento(no);
+        if (fatorB_aux == 1 || fatorB_aux == 0)
+            return rotSimplesDir(p);
+
+        if (fatorB_aux == -1)
+            return rotDuplaDir(p);
+    }
+
+    return p;
 }
 
 void ArvoreAVL::imprimir()
 {
-    cout << endl
-         << "Impressao Arvore AVL" << endl;
+    NoAVL *p = raiz;
 
-    NoAVL *p = this->raiz;
-    while (p != nullptr)
-    {
-        cout << "Valor de p " << p->getValor() << endl;
-        p = p->pai;
-    }
-    cout << "P nulo\n";
-    //imprimirAux(p, 0);
+    imprimeAux(p, 0);
 }
 
-void ArvoreAVL::imprimirAux(NoAVL *p, int nivel)
+void ArvoreAVL::imprimeAux(NoAVL *p, int nivel)
 {
-    cout << "Valor: " << p->getValor() << " Nivel: " << nivel << endl;
-    if (p->getSubArvores(0) != nullptr)
+    if (p != nullptr)
     {
-        imprimirAux(p->getSubArvores(0), nivel + 1);
-    }
-    if (p->getSubArvores(1) != nullptr)
-    {
-        imprimirAux(p->getSubArvores(1), nivel + 1);
+        cout << "Valor: " << p->getValor() << " Nivel: " << nivel << endl;
+        imprimeAux(p->getSubArvores(0), nivel + 1);
+        imprimeAux(p->getSubArvores(1), nivel + 1);
     }
 }
 
-void ArvoreAVL::rotacaoDupla(NoAVL *&p, int dir)
+NoAVL *ArvoreAVL::rotSimplesEsq(NoAVL *p)
 {
-    int oposto = this->oposto(dir);
-    NoAVL *filho = p->getSubArvores(dir)->getSubArvores(oposto);
-    p->getSubArvores(dir)->setSubArvores(oposto, filho->getSubArvores(dir));
-    filho->setSubArvores(dir, p->getSubArvores(dir));
-    p->setSubArvores(dir, filho);
-    filho = p->getSubArvores(dir);
-    p->setSubArvores(dir, filho->getSubArvores(oposto));
-    filho->setSubArvores(oposto, p);
-    p = filho;
-}
+    cout << "Rotacao Simples Esquerda\n";
+    NoAVL *no = p->getSubArvores(1);
 
-void ArvoreAVL::rotacaoSimples(NoAVL *&p, int dir)
-{
-    int oposto = this->oposto(dir);
-    NoAVL *filho = p->getSubArvores(dir);
-    p->setSubArvores(dir, filho->getSubArvores(oposto));
-    filho->setSubArvores(oposto, p);
-    p = filho;
-}
+    p->setSubArvores(1, no->getSubArvores(0));
+    no->setSubArvores(0, p);
 
-void ArvoreAVL::aumentaBalanceamento(NoAVL *p, int dir)
-{
-    int oposto = this->oposto(dir);
-    int balance = p->getSubArvores(dir)->getSubArvores(oposto)->getBalanco();
-
-    if (balance == dir)
+    if (p->getSubArvores(0)->getAltura() > p->getSubArvores(1)->getAltura())
     {
-        p->setBalanco(2); //Verifica se é igual
-        p->getSubArvores(dir)->setBalanco(oposto);
+        p->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+        no->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
     }
     else
     {
-        p->setBalanco(p->getSubArvores(dir)->getBalanco());
+        p->atualizaAltura(1 + p->getSubArvores(1)->getAltura());
+        no->atualizaAltura(1 + p->getSubArvores(1)->getAltura());
     }
-    p->getSubArvores(dir)->getSubArvores(oposto)->setBalanco(2);
+
+    return no;
 }
-
-void ArvoreAVL::rebalanceamentoInserir(NoAVL *&p, int dir, bool hAlterada)
+NoAVL *ArvoreAVL::rotSimplesDir(NoAVL *p)
 {
-    int oposto = this->oposto(dir);
+    cout << "Rotacao Simples Direita\n";
+    NoAVL *no = p->getSubArvores(0);
 
-    if (p->getBalanco() == dir)
-    {
-        if (p->getSubArvores(dir)->getBalanco() == dir)
-        {
-            p->getSubArvores(dir)->setBalanco(2);
-            p->setBalanco(2);
+    p->setSubArvores(0, no->getSubArvores(1));
+    no->setSubArvores(1, p);
 
-            this->rotacaoSimples(p, dir);
-        }
-        else
-        {
-            this->aumentaBalanceamento(p, dir);
-            this->rotacaoDupla(p, dir);
-        }
-        hAlterada = false;
-    }
-    else if (p->getBalanco() == oposto)
+    if (p->getSubArvores(0)->getAltura() > p->getSubArvores(1)->getAltura())
     {
-        p->setBalanco(2);
-        hAlterada = false;
+        p->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+        no->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
     }
     else
     {
-        p->setBalanco(dir);
+        p->atualizaAltura(1 + p->getSubArvores(1)->getAltura());
+        no->atualizaAltura(1 + p->getSubArvores(1)->getAltura());
     }
+
+    return no;
 }
 
-void ArvoreAVL::inserirAux(NoAVL *&p, int valor, bool hAlterada, NoAVL *pai)
+
+NoAVL *ArvoreAVL::rotDuplaEsq(NoAVL *p)
 {
-    if (p == nullptr)
+    cout << "Rotacao Dupla Esquerda\n";
+    NoAVL *no = p->getSubArvores(1);
+    NoAVL *n = no->getSubArvores(0);
+
+    p->setSubArvores(1,n->getSubArvores(0));
+    no->setSubArvores(0,n->getSubArvores(1));
+    n->setSubArvores(0,p);
+    n->setSubArvores(1,no);
+
+    
+    if (p->getSubArvores(0)->getAltura() > p->getSubArvores(1)->getAltura())
     {
-        p = new NoAVL(valor);
-        p->pai = pai;
-        hAlterada = true;
-        return;
-    }
-    else if (p->getValor() == valor)
-    {
-        return;
+        p->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+        no->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+        n->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
     }
     else
     {
-        //cout << "Terceiro Else" << endl;
-        int dir = (valor > p->getValor()) ? 1 : 0;
-        //cout << "DIR: " << dir << endl;
-        hAlterada = false;
-        NoAVL *&a = p = p->getSubArvores(dir);
-        inserirAux(a, valor, hAlterada, p);
-        if (hAlterada)
-        {
-            this->rebalanceamentoInserir(p, dir, hAlterada);
-        }
+        p->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+        no->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+        n->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
     }
+    return n;
 }
 
-int ArvoreAVL::oposto(int dir)
+NoAVL *ArvoreAVL::rotDuplaDir(NoAVL *p)
 {
-    return (dir == 1) ? 0 : 1;
+    cout << "Rotacao Dupla Direita\n";
+    NoAVL *no = p->getSubArvores(0);
+    NoAVL *n = no->getSubArvores(1);
+
+    p->setSubArvores(0,n->getSubArvores(0));
+    no->setSubArvores(1,n->getSubArvores(1));
+    n->setSubArvores(1,p);
+    n->setSubArvores(0,no);
+
+    
+    if (p->getSubArvores(0)->getAltura() > p->getSubArvores(1)->getAltura())
+    {
+        p->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+        no->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+        n->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+    }
+    else
+    {
+        p->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+        no->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+        n->atualizaAltura(1 + p->getSubArvores(0)->getAltura());
+    }
+    return n;
 }

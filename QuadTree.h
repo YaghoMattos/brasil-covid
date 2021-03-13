@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include "Log.h"
 #include "BaseArvores.h"
 #include "NoQuadtree.h"
@@ -14,17 +15,21 @@ class QuadTree : public BaseArvores
 {
 private:
     NoQuadTree *raiz;
+    
+    int compara(NoQuadTree *p, CitiesCoordinates *b);
+    void imprimirTelaAux(NoQuadTree *p, int nivel);
+    void imprimirAux(NoQuadTree *p, int nivel);
+    void searchIntervalAux(NoQuadTree *p, float x1, float y1, float x2, float y2);
 
-    int compara(NoQuadTree* p, CitiesCoordinates *b);
-    void imprimirTelaAux(NoQuadTree* p, int nivel);
-    void imprimirAux(NoQuadTree* p, int nivel);
 public:
     QuadTree();
     QuadTree(NoQuadTree *_raiz);
     ~QuadTree();
+    
+    vector<CitiesCoordinates *> data;
 
     void inserir(CitiesCoordinates *info);
-    bool search(NoQuadTree* p);
+    void searchInterval(float x1, float y1, float x2, float y2);
 
     void imprimirTela();
     void imprimir();

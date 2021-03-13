@@ -353,15 +353,16 @@ void NoB::percorre() // função que percorre a arvore
 
 void NoB::percorreArquivo()
 {
-    Log::getInstance().iniciaArquivoSaida("Saidas/arvoreB.txt");
+    Log::getInstance().iniciaArquivoSaida("Saidas/arvoreB-"+to_string(t)+".txt");
     int i;
     string line = "";
     for (i = 0; i < n; i++)
     {
         line = "";
         if (folha == false)
-            C[i]->percorre();
-        line += " " + chave[i];
+            C[i]->percorreArquivo();
+        
+        line += " " + to_string(chave[i]);
         Log::getInstance().lineArquivo(line);
     }
     

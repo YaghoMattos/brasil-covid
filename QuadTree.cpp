@@ -25,16 +25,16 @@ void QuadTree::inserir(CitiesCoordinates *info)
     {
         NoQuadTree *novoNo = new NoQuadTree(info);
 
-        if (!this->search(novoNo))
-        {
-            cout << "O no ja existe na arvore" << endl;
-            return;
-        }
-
         NoQuadTree *p = this->raiz;
         bool flag = true;
         while (flag)
         {
+            if (p->getX() == novoNo->getX() && p->getY() == novoNo->getY())
+            {
+                cout << "O No ja existe na arvore" << endl;
+                return;
+            }
+
             if (p->getX() < novoNo->getX())
             {
                 this->aumentaNumComp();
@@ -101,69 +101,26 @@ void QuadTree::inserir(CitiesCoordinates *info)
     }
 }
 
-int QuadTree::compara(NoQuadTree *p, CitiesCoordinates *b)
+void QuadTree::searchInterval(float x1, float y1, float x2, float y2)
 {
-    /**
-     * -1 - São Iguais
-     * 0 - Suldeste
-     * 1 - Nordeste
-     * 2 - Suldoeste
-     * 3 - Noroeste
-     */
+    NoQuadTree *p = this->raiz;
 
-    if (p->getX() == b->latitude && p->getY() == b->longitude)
-    {
-        return -1;
-    }
-    else if (p->getX() < b->latitude)
-    {
-        if (p->getY() < b->longitude)
-        {
-            return 0; //Suldeste
-        }
-        else
-        {
-            return 1; //Nordeste
-        }
-    }
-    else if (p->getY() < b->longitude)
-    {
-        return 2; //Suldoeste
-    }
-    else
-    {
-        return 3; //Noroeste
-    }
+    searchIntervalAux(p, x1, y2, x2, y2);
 }
 
-bool QuadTree::search(NoQuadTree *p)
+void QuadTree::searchIntervalAux(NoQuadTree *p, float x1, float y1, float x2, float y2)
 {
-    if (this->raiz == nullptr)
-        return false;
-
-    NoQuadTree *no = this->raiz;
-    if (no->getX() < p->getX())
+    if (p != nullptr)
     {
-        this->aumentaNumComp();
-        if (no->getY() < p->getX())
+        if ((p->getX() >= x1) && (p->getX() <= x2) && (p->getY() >= y1) && (p->getY() <= y2))
         {
-            this->aumentaNumComp();
-            no = no->getSuldeste();
+            data.push_back(p->getInfo());
         }
-        else
-        {
-            no = no->getNordeste();
-        }
+        searchIntervalAux(p->getNordeste(), x1, y2, x2, y2);
+        searchIntervalAux(p->getNoroeste(), x1, y2, x2, y2);
+        searchIntervalAux(p->getSuldeste(), x1, y2, x2, y2);
+        searchIntervalAux(p->getSuldoeste(), x1, y2, x2, y2);
     }
-    else if (no->getY() < p->getY())
-    {
-        this->aumentaNumComp();
-        no = no->getSuldoeste();
-    }
-    else
-        no = no->getNoroeste();
-
-    return true;
 }
 
 void QuadTree::imprimirTela()

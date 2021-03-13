@@ -22,7 +22,7 @@ LeitorCovid::LeitorCovid(string caminhoArquivo, int n)
 
 LeitorCovid::~LeitorCovid()
 {
-    delete hash;
+    data.clear();
 }
 
 void LeitorCovid::arquivoEntrada()

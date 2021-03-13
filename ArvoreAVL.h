@@ -4,34 +4,35 @@
 #include <iostream>
 
 #include "NoAVL.h"
+#include "BaseArvores.h"
 #include "CitiesCovid.h"
 #include "Log.h"
 
 using namespace std;
 
-class ArvoreAVL{
-    private:
-        NoAVL* raiz;
+class ArvoreAVL : public BaseArvores
+{
+private:
+    NoAVL *raiz;
 
-        void rotacaoDupla(NoAVL*& p, int dir);
-        void rotacaoSimples(NoAVL*& p, int dir);
 
-        void aumentaBalanceamento(NoAVL* p, int dir);
-        void rebalanceamentoInserir(NoAVL*& p, int dir, bool hAlterada);
+    NoAVL* insertAux(NoAVL* p, int valor);
+    void imprimeAux(NoAVL* p,int nivel);
+public:
+    ArvoreAVL();
+    ~ArvoreAVL();
 
-        void inserirAux(NoAVL *& p,int valor,bool hAlterada,NoAVL* pai);
+    bool busca(int val);
+    int getAltura(NoAVL* p);
+    int getBalanceamento(NoAVL* p);
+    void insert(int val);
+    void imprimir();
 
-        int oposto(int dir);
-        void imprimirAux(NoAVL * p,int nivel);
-    public:
-        ArvoreAVL();
-        ~ArvoreAVL();
-
-        void inserir(int valor);
-        bool search(int valor);
-
-        void clear();
-        void imprimir();
+    NoAVL *rotSimplesEsq(NoAVL *p); 
+    NoAVL *rotSimplesDir(NoAVL *p);
+    NoAVL *rotDuplaEsq(NoAVL *p); 
+    NoAVL *rotDuplaDir(NoAVL *p); 
+    int getComparacoes();
 };
 
 #endif // ARVOREAVL_H_INCLUDED

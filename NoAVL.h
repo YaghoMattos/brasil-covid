@@ -12,17 +12,19 @@ public:
     ~NoAVL();
 
     void setSubArvores(int n, NoAVL *p);
-    void setBalanco(int n);
-    NoAVL *pai;
-    int getBalanco();
+    void setBalanceamento(int n);
+    int getBalanceamento();
+    int getAltura();
+    void atualizaAltura(int k);
     int getValor();
     NoAVL *getSubArvores(int n); // 0  - ESQ
                                  // 1  - DIR
                                  // 2 - Igual
 private:
-    int balanco;
-
+    int balanceamento;
+    int altura;
     int valor;
+
     NoAVL *subArvoreEsquerda;
     NoAVL *subArvoreDireita;
 };

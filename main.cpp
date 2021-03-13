@@ -1,8 +1,11 @@
 #include <iostream>
+#include <vector>
 #include <string>
 
 /*Bibliotecas criadas*/
 #include "QuadTree.h"
+#include "CitiesCoordinates.h"
+#include "CitiesCovid.h"
 #include "ArvoreAVL.h"
 #include "ArvoreB.h"
 #include "HashEncLinear.h"
@@ -26,6 +29,8 @@ void funcaoHash();
 void arvoreAVL();
 void arvoreB();
 
+/*Trabalho*/
+void trabalho();
 int main(int argc, char *argv[])
 {
 
@@ -110,6 +115,7 @@ void selecionado(int chave)
         delete leitorCovid;
         break;
     case 3: //Trabalho Propriamente dito
+        trabalho();
         break;
     case 4:
         moduloTestes(); //Modulo de Testes
@@ -215,11 +221,15 @@ void funcaoHash()
     LeitorCovid *leitorCovid = new LeitorCovid(caminho_diretorio, n);
     HashEncLinear *hash = new HashEncLinear(n);
     vector<CitiesCovid *> data = leitorCovid->getData();
+    delete leitorCovid;
 
     for (int i = 0; i < n; i++)
     {
+        cout << "I: " << i << endl;
         hash->inserir(data[i]);
     }
+
+    data.clear();
 
     if (n <= 20)
     {
@@ -231,7 +241,7 @@ void funcaoHash()
     }
 
     data.clear();
-    delete leitorCovid;
+
     delete hash;
 }
 
@@ -254,7 +264,7 @@ void arvoreAVL()
     for (int i = 0; i < n; i++)
     {
         //cout << "Inserindo na arvore" << endl;
-        arvore->inserir(hash->getHashMap(i).chave);
+        arvore->insert(hash->getHashMap(i).chave);
     }
 
     if (n <= 20)
@@ -271,38 +281,99 @@ void arvoreAVL()
 void arvoreB()
 {
     int n = 0;
-    int b = 0;
-    cout << "Selecione o numero de chaves a ser inserido na arvore AVL: ";
+    cout << "Selecione o numero de chaves a ser inserido na arvore B: ";
     cin >> n;
-    cout << "Selecione o numero de chaves a ser inserida na arvore B: ";
-    cin >> b;
     LeitorCovid *leitorCovid = new LeitorCovid(caminho_diretorio, n);
     HashEncLinear *hash = new HashEncLinear(n);
     vector<CitiesCovid *> data = leitorCovid->getData();
-    ArvoreB *arvore = new ArvoreB(b);
+
+    delete leitorCovid;
 
     for (int i = 0; i < n; i++)
     {
         hash->inserir(data[i]);
     }
+
+    ArvoreB *arvore = new ArvoreB(200);
     cout << endl
-         << "Comecando Insercao na arvore B" << endl;
+         << "Comecando Insercao na arvore B - 200" << endl;
     for (int i = 0; i < n; i++)
     {
-        //cout << "Inserindo na arvore" << endl;
-        arvore->insert(hash->getHashMap(i).chave);
+        int a = hash->getHashMap(i).chave;
+        arvore->insert(a);
     }
     delete hash;
-
     if (n <= 20)
     {
         arvore->imprimir();
     }
     else
     {
-        arvore->imprimirArquivo();
+        arvore->imprimir();
     }
-    
-    delete leitorCovid;
+
     delete arvore;
+}
+
+void trabalho()
+{
+    int M[5] = {5000, 10000, 50000, 100000, 500000};
+
+    for (int i = 0; i < 5; i++)
+    {
+        Log::getInstance().iniciaArquivoSaida("Saidas_" + to_string(i) + ".txt");
+
+        /*Leitura do Hash*/
+        /*LeitorCovid *leitorC = new LeitorCovid(caminho_diretorio, M[i]);
+        vector<CitiesCovid *> data = leitorC->getData();
+        HashEncLinear *hash = new HashEncLinear(M[i]);
+
+        delete leitorC;
+
+        for (int j = 0; j < M[i]; j++)
+        {
+            hash->inserir(data[j]);
+        }
+
+        data.clear();*/
+
+        cout << "S2-" << i << " ) " << endl;
+
+        /*Leitura da QuadTree*/
+        LeitorCoordinates *leitor = new LeitorCoordinates(caminho_diretorio);
+        QuadTree *quad = leitor->getQuadTree();
+
+        delete leitor;
+
+        float x1, x2, y1, y2;
+        cout << "Digite o Intervalo X1: ";
+        cin >> x1;
+        cout << "Digite o Intervalo Y1: ";
+        cin >> y1;
+        cout << "Digite o Intervalo X2: ";
+        cin >> x2;
+        cout << "Digite o Intervalo Y2: ";
+        cin >> y2;
+
+        string line;
+        quad->searchInterval(x1, y1, x2, y2);
+
+        int numCasos = 0;
+
+        line += "Numero Comparacoes: " + to_string(quad->getNumComparacoes());
+        Log::getInstance().line(line);
+
+        line = "";
+        line += "Intervalo: ";
+        Log::getInstance().lineArquivo(line);
+
+        while (!quad->data.empty())
+        {
+            cout << "Entra no data" << endl;
+            cout << "Imprimindo Intervalo de Cidades" << quad->data.back()->nome_cidade << endl;
+            quad->data.pop_back();
+        }
+
+        Log::getInstance().fechaArqSaida();
+    }
 }
