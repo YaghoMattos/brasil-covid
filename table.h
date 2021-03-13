@@ -12,9 +12,9 @@ class Table {
         int g;
         //numero de chaves por balde
         int Mb;
-        //n�mero de baldes por n�vel
+        //numero de baldes por nivel
         int N;
-        //posi��es no overflow
+        //posicoes no overflow
         int O;
         //numero total de baldes
         int Nb;
@@ -23,15 +23,18 @@ class Table {
         //ponteiro para indicar o balde
         int split;
 
+        int of;
+
     public:
         //lista de baldes
         vector<Bucket*> tabela;
         Table(int N, int M, int O);
         bool verificaDivisao();
-        void ultimoBaldeNivelG();
+        bool ultimoBaldeNivelG();
+        void insercaoDivideBalde(int chave, int index, int i);
         void divideBalde();
         void criaBalde();
-        double fatorCarga(int of);
+        float fatorCarga(int of);
         int getNivel();
         void setNivel(int nivel);
         int getNumBaldes();
